@@ -15,8 +15,9 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "dvcx",
-	Short: "DevCycle CLI - Unofficial command-line tool for DevCycle Management API",
+	Use:     "dvcx",
+	Short:   "DevCycle CLI - Unofficial command-line tool for DevCycle Management API",
+	Version: GetVersion(),
 	Long: `dvcx is an unofficial command-line tool that enables the use of
 the DevCycle Management API from the command line.
 

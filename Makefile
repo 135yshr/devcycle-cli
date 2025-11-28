@@ -1,9 +1,21 @@
 .PHONY: build install clean test lint fmt help
 
 BINARY_NAME=dvcx
-VERSION=$(shell git describe --tags --always --dirty 2>/dev/null || echo "dev")
-BUILD_TIME=$(shell date -u '+%Y-%m-%d_%H:%M:%S')
-LDFLAGS=-ldflags "-X main.version=$(VERSION) -X main.buildTime=$(BUILD_TIME)"
+
+# Version: Extract from git tag (v1.0.0 -> 1.0.0), fallback to "dev"
+GIT_TAG=$(shell git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//')
+VERSION=$(if $(GIT_TAG),$(GIT_TAG),dev)
+# Commit: Short git hash
+COMMIT=$(shell git rev-parse --short HEAD 2>/dev/null || echo "none")
+# Date: Build timestamp in ISO 8601 format
+DATE=$(shell date -u '+%Y-%m-%dT%H:%M:%SZ')
+
+# ldflags to embed version info into binary
+LDFLAGS=-ldflags "\
+	-s -w \
+	-X github.com/135yshr/devcycle-cli/cmd.Version=$(VERSION) \
+	-X github.com/135yshr/devcycle-cli/cmd.Commit=$(COMMIT) \
+	-X github.com/135yshr/devcycle-cli/cmd.Date=$(DATE)"
 
 ## build: Build the binary
 build:
@@ -43,6 +55,12 @@ tidy:
 ## run: Run the CLI
 run:
 	go run . $(ARGS)
+
+## version: Show version info
+version:
+	@echo "Version: $(VERSION)"
+	@echo "Commit:  $(COMMIT)"
+	@echo "Date:    $(DATE)"
 
 ## help: Show this help message
 help:

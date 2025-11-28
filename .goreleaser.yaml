@@ -20,9 +20,9 @@ builds:
       - arm64
     ldflags:
       - -s -w
-      - -X github.com/135yshr/devcycle-cli/cmd.version={{.Version}}
-      - -X github.com/135yshr/devcycle-cli/cmd.commit={{.Commit}}
-      - -X github.com/135yshr/devcycle-cli/cmd.date={{.Date}}
+      - -X github.com/135yshr/devcycle-cli/cmd.Version={{.Version}}
+      - -X github.com/135yshr/devcycle-cli/cmd.Commit={{.ShortCommit}}
+      - -X github.com/135yshr/devcycle-cli/cmd.Date={{.Date}}
 
 archives:
   - format: tar.gz
