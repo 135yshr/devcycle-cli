@@ -90,12 +90,11 @@ See [docs/roadmap.md](docs/roadmap.md) for the complete list.
 ### Setup
 
 ```bash
-# Install pre-commit hooks
-pip install pre-commit
-pre-commit install
+# Install pre-commit and markdownlint-cli2
+brew install pre-commit markdownlint-cli2
 
-# Install markdownlint-cli2 (optional, pre-commit will use its own)
-npm install -g markdownlint-cli2
+# Install pre-commit hooks
+pre-commit install
 ```
 
 See [docs/development.md](docs/development.md) for detailed setup instructions.

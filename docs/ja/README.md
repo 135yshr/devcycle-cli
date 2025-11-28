@@ -88,12 +88,11 @@ go install github.com/135yshr/devcycle-cli@latest
 ### セットアップ
 
 ```bash
-# pre-commit hooks をインストール
-pip install pre-commit
-pre-commit install
+# pre-commit と markdownlint-cli2 をインストール
+brew install pre-commit markdownlint-cli2
 
-# markdownlint-cli2 をインストール（オプション、pre-commit が独自のものを使用）
-npm install -g markdownlint-cli2
+# pre-commit hooks をインストール
+pre-commit install
 ```
 
 詳細なセットアップ手順は [開発ガイド](../development.md) を参照してください。
