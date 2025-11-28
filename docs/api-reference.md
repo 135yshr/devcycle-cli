@@ -4,7 +4,7 @@ This document lists all DevCycle Management API endpoints that `dvcx` supports o
 
 ## Base URL
 
-```
+```text
 https://api.devcycle.com/v1
 ```
 
@@ -15,13 +15,14 @@ The Management API uses OAuth2 for authentication.
 **Token Endpoint:** `https://auth.devcycle.com/oauth/token`
 
 To obtain credentials:
+
 1. Go to [DevCycle Dashboard](https://app.devcycle.com/)
 2. Navigate to Settings > API Credentials
 3. Create a new API Key with appropriate permissions
 
 ## Endpoints
 
-### Authentication
+### Authentication Endpoint
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|

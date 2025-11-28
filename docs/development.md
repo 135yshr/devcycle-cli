@@ -51,7 +51,7 @@ This guide covers setting up your development environment and understanding the 
 
 ## Project Structure
 
-```
+```text
 devcycle-cli/
 ├── cmd/                    # Cobra command definitions
 │   ├── root.go            # Root command and global flags

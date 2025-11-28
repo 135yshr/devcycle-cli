@@ -40,7 +40,7 @@ What actually happened.
 
 ## Logs/Output
 
-```
+```text
 # Paste any relevant logs or command output here
 # Run with DVCX_DEBUG=true for verbose output
 ```

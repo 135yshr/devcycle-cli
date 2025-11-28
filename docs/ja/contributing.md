@@ -25,11 +25,12 @@
 
 ### ブランチ命名規則
 
-```
+```text
 feature/<phase>-<task-name>
 ```
 
 例：
+
 - `feature/phase1-auth` - 認証機能
 - `feature/phase1-projects-list` - プロジェクト一覧コマンド
 - `fix/token-refresh` - トークンリフレッシュのバグ修正
@@ -38,7 +39,7 @@ feature/<phase>-<task-name>
 
 コミットメッセージには [Gitmoji](https://gitmoji.dev/) を使用します：
 
-```
+```text
 <gitmoji> <type>: <description>
 
 [optional body]
@@ -57,7 +58,8 @@ feature/<phase>-<task-name>
 | ⬆️ | `:arrow_up:` | 依存関係のアップグレード |
 
 **例：**
-```
+
+```text
 ✨ feat: プロジェクト一覧コマンドを追加
 🐛 fix: トークン期限切れの処理を修正
 📝 docs: API リファレンスを更新
@@ -101,6 +103,7 @@ make test-coverage
 ## 質問がありますか？
 
 お気軽に：
+
 - 質問用の Issue を開く
 - GitHub Discussions でディスカッションを始める
 

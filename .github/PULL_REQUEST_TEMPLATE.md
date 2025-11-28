@@ -26,6 +26,7 @@ Fixes #
 - [ ] Manual testing
 
 **Test Configuration:**
+
 - Go version:
 - OS:
 

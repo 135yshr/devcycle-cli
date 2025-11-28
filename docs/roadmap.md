@@ -20,6 +20,7 @@ This document outlines the implementation phases for `dvcx`.
 **Goal:** Build CLI foundation and implement most frequently used read operations.
 
 ### Infrastructure
+
 - [x] Go module initialization
 - [x] CLI framework (cobra) setup
 - [x] Configuration management (viper)
@@ -27,10 +28,12 @@ This document outlines the implementation phases for `dvcx`.
 - [ ] Output formatters (table/JSON/YAML)
 
 ### Authentication
+
 - [ ] `auth login` - OAuth2 token acquisition
 - [ ] `auth logout` - Token removal
 
 ### Read Commands
+
 - [ ] `projects list` - List all projects
 - [ ] `projects get` - Get project details
 - [ ] `features list` - List all features
@@ -47,16 +50,19 @@ This document outlines the implementation phases for `dvcx`.
 **Goal:** Implement create, update, and delete operations for features and variables.
 
 ### Feature Management
+
 - [ ] `features create` - Create a new feature
 - [ ] `features update` - Update a feature
 - [ ] `features delete` - Delete a feature
 
 ### Variable Management
+
 - [ ] `variables create` - Create a new variable
 - [ ] `variables update` - Update a variable
 - [ ] `variables delete` - Delete a variable
 
 ### Project Management
+
 - [ ] `projects create` - Create a new project
 - [ ] `projects update` - Update a project
 
@@ -67,10 +73,12 @@ This document outlines the implementation phases for `dvcx`.
 **Goal:** Implement feature flag configuration features.
 
 ### Targeting
+
 - [ ] `targeting get` - Get targeting configuration
 - [ ] `targeting update` - Update targeting rules
 
 ### Variations
+
 - [ ] `variations list` - List all variations
 - [ ] `variations create` - Create a new variation
 - [ ] `variations update` - Update a variation
@@ -83,6 +91,7 @@ This document outlines the implementation phases for `dvcx`.
 **Goal:** Implement advanced targeting features.
 
 ### Audiences
+
 - [ ] `audiences list` - List all audiences
 - [ ] `audiences get` - Get audience details
 - [ ] `audiences create` - Create a new audience
@@ -90,6 +99,7 @@ This document outlines the implementation phases for `dvcx`.
 - [ ] `audiences delete` - Delete an audience
 
 ### Overrides (Self-Targeting)
+
 - [ ] `overrides list` - List all overrides
 - [ ] `overrides create` - Create a new override
 - [ ] `overrides delete` - Delete an override
@@ -101,14 +111,17 @@ This document outlines the implementation phases for `dvcx`.
 **Goal:** Implement operational features like audit logs, metrics, and webhooks.
 
 ### Audit Logs
+
 - [ ] `audit list` - List project audit logs
 - [ ] `audit feature` - List feature audit logs
 
 ### Metrics
+
 - [ ] `metrics project` - Get project metrics
 - [ ] `metrics feature` - Get feature metrics
 
 ### Webhooks
+
 - [ ] `webhooks list` - List all webhooks
 - [ ] `webhooks create` - Create a new webhook
 - [ ] `webhooks update` - Update a webhook
@@ -121,11 +134,13 @@ This document outlines the implementation phases for `dvcx`.
 **Goal:** Implement environment creation, deletion, and SDK key management.
 
 ### Environments
+
 - [ ] `environments create` - Create a new environment
 - [ ] `environments update` - Update an environment
 - [ ] `environments delete` - Delete an environment
 
 ### SDK Keys
+
 - [ ] `keys list` - List SDK keys
 - [ ] `keys rotate` - Rotate SDK keys
 

@@ -25,11 +25,12 @@ Thank you for your interest in contributing to `dvcx`! This guide will help you 
 
 ### Branch Naming Convention
 
-```
+```text
 feature/<phase>-<task-name>
 ```
 
 Examples:
+
 - `feature/phase1-auth` - Authentication feature
 - `feature/phase1-projects-list` - Projects list command
 - `fix/token-refresh` - Bug fix for token refresh
@@ -38,7 +39,7 @@ Examples:
 
 We use [Gitmoji](https://gitmoji.dev/) for commit messages:
 
-```
+```text
 <gitmoji> <type>: <description>
 
 [optional body]
@@ -57,7 +58,8 @@ We use [Gitmoji](https://gitmoji.dev/) for commit messages:
 | ⬆️ | `:arrow_up:` | Upgrade dependencies |
 
 **Examples:**
-```
+
+```text
 ✨ feat: Add projects list command
 🐛 fix: Fix token expiration handling
 📝 docs: Update API reference
@@ -101,6 +103,7 @@ make test-coverage
 ## Questions?
 
 Feel free to:
+
 - Open an issue for questions
 - Start a discussion in GitHub Discussions
 

@@ -29,6 +29,7 @@ A clear and concise description of any alternative solutions or features you've 
 ## Related DevCycle API Endpoint
 
 If this feature relates to a specific DevCycle Management API endpoint, please link it here:
+
 - Endpoint: `GET /v1/projects/{project}/...`
 - [DevCycle API Docs](https://docs.devcycle.com/management-api/)
 
