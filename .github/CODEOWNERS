@@ -1,0 +1,20 @@
+# CODEOWNERS - Define code owners for automatic review requests
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything in the repo
+* @135yshr
+
+# Go source code
+*.go @135yshr
+
+# Documentation
+*.md @135yshr
+docs/ @135yshr
+
+# Configuration files
+*.yaml @135yshr
+*.yml @135yshr
+*.json @135yshr
+
+# CI/CD
+.github/ @135yshr
