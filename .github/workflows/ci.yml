@@ -9,57 +9,8 @@ on:
     branches: [main]
 
 jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: 'go.mod'
-
-      - name: Download dependencies
-        run: go mod download
-
-      - name: Verify dependencies
-        run: go mod verify
-
-      - name: Run go vet
-        run: go vet ./...
-
-      - name: Run tests
-        run: go test -v -race -coverprofile=coverage.out ./...
-
-      - name: Upload coverage
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage
-          path: coverage.out
-
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: 'go.mod'
-
-      - name: Build
-        run: go build -o bin/dvcx .
-
-      - name: Verify binary
-        run: ./bin/dvcx version
-
-  fmt-check:
-    name: Format Check
+  lint:
+    name: Lint & Format
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -78,18 +29,6 @@ jobs:
             exit 1
           fi
 
-  mod-tidy-check:
-    name: Module Tidy Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Go
-        uses: actions/setup-go@v5
-        with:
-          go-version-file: 'go.mod'
-
       - name: Check go mod tidy
         run: |
           go mod tidy
@@ -99,12 +38,8 @@ jobs:
             exit 1
           fi
 
-  markdown-lint:
-    name: Markdown Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Run go vet
+        run: go vet ./...
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -113,3 +48,37 @@ jobs:
 
       - name: Run markdownlint
         run: npx markdownlint-cli2 "**/*.md" "#node_modules"
+
+  test:
+    name: Test & Build
+    runs-on: ubuntu-latest
+    needs: lint
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+
+      - name: Download dependencies
+        run: go mod download
+
+      - name: Verify dependencies
+        run: go mod verify
+
+      - name: Run tests
+        run: go test -v -race -coverprofile=coverage.out ./...
+
+      - name: Build
+        run: go build -o bin/dvcx .
+
+      - name: Verify binary
+        run: ./bin/dvcx version
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage.out
