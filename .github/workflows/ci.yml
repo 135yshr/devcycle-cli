@@ -5,8 +5,22 @@ on:
     branches: [main, feature/**]
     tags-ignore:
       - 'v*'
+    paths:
+      - '**.go'
+      - 'go.mod'
+      - 'go.sum'
+      - '.github/workflows/ci.yml'
+      - '**.md'
+      - '.markdownlint.json'
   pull_request:
     branches: [main]
+    paths:
+      - '**.go'
+      - 'go.mod'
+      - 'go.sum'
+      - '.github/workflows/ci.yml'
+      - '**.md'
+      - '.markdownlint.json'
 
 jobs:
   lint:
