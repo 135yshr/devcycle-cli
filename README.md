@@ -79,6 +79,27 @@ See [docs/roadmap.md](docs/roadmap.md) for the complete list.
 - [Contributing](docs/contributing.md) - How to contribute
 - [Development](docs/development.md) - Development setup and architecture
 
+## Development
+
+### Prerequisites
+
+- Go 1.24+
+- [pre-commit](https://pre-commit.com/) - For Git hooks
+- [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) - For Markdown linting
+
+### Setup
+
+```bash
+# Install pre-commit hooks
+pip install pre-commit
+pre-commit install
+
+# Install markdownlint-cli2 (optional, pre-commit will use its own)
+npm install -g markdownlint-cli2
+```
+
+See [docs/development.md](docs/development.md) for detailed setup instructions.
+
 ## Contributing
 
 Contributions are welcome! Please read our [Contributing Guide](docs/contributing.md) before submitting a Pull Request.

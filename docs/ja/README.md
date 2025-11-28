@@ -77,6 +77,27 @@ go install github.com/135yshr/devcycle-cli@latest
 - [コントリビューションガイド](contributing.md) - 貢献方法
 - [開発ガイド](../development.md) - 開発環境セットアップとアーキテクチャ
 
+## 開発
+
+### 前提条件
+
+- Go 1.24+
+- [pre-commit](https://pre-commit.com/) - Git hooks 用
+- [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) - Markdown lint 用
+
+### セットアップ
+
+```bash
+# pre-commit hooks をインストール
+pip install pre-commit
+pre-commit install
+
+# markdownlint-cli2 をインストール（オプション、pre-commit が独自のものを使用）
+npm install -g markdownlint-cli2
+```
+
+詳細なセットアップ手順は [開発ガイド](../development.md) を参照してください。
+
 ## コントリビューション
 
 コントリビューションを歓迎します！Pull Request を送る前に[コントリビューションガイド](contributing.md)をお読みください。
