@@ -39,7 +39,7 @@ enableRobotsTXT = true
 
 [markup]
   [markup.highlight]
-    style = "github"
+    style = "monokai"
     lineNos = false
     codeFences = true
     guessSyntax = true
