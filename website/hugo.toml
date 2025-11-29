@@ -1,0 +1,56 @@
+baseURL = "https://135yshr.github.io/devcycle-cli/"
+languageCode = "en"
+title = "dvcx - DevCycle CLI Extended"
+theme = "hugo-book"
+
+defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = true
+
+enableGitInfo = true
+enableRobotsTXT = true
+
+[params]
+  description = "Unofficial CLI tool for DevCycle Management API"
+  github = "https://github.com/135yshr/devcycle-cli"
+  BookTheme = "auto"
+  BookToC = true
+  BookSection = "docs"
+  BookRepo = "https://github.com/135yshr/devcycle-cli"
+  BookEditPath = "edit/main/website/content"
+  BookDateFormat = "January 2, 2006"
+  BookSearch = true
+  BookComments = false
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    contentDir = "content/en"
+    weight = 1
+    [languages.en.params]
+      BookMenuBundle = "/menu"
+
+  [languages.ja]
+    languageName = "日本語"
+    contentDir = "content/ja"
+    weight = 2
+    [languages.ja.params]
+      BookMenuBundle = "/menu"
+
+[menu]
+
+[markup]
+  [markup.highlight]
+    style = "github"
+    lineNos = false
+    codeFences = true
+    guessSyntax = true
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[module]
+  [[module.imports]]
+    path = "github.com/alex-shpak/hugo-book"

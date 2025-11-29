@@ -6,7 +6,7 @@ This document outlines the implementation phases for `dvcx`.
 
 | Phase | Focus | Status |
 |-------|-------|--------|
-| Phase 1 | Foundation + Basic Operations (MVP) | In Progress |
+| Phase 1 | Foundation + Basic Operations (MVP) | Completed |
 | Phase 2 | Write Operations | Planned |
 | Phase 3 | Targeting & Variations | Planned |
 | Phase 4 | Audiences & Overrides | Planned |
@@ -24,24 +24,24 @@ This document outlines the implementation phases for `dvcx`.
 - [x] Go module initialization
 - [x] CLI framework (cobra) setup
 - [x] Configuration management (viper)
-- [ ] HTTP client implementation
-- [ ] Output formatters (table/JSON/YAML)
+- [x] HTTP client implementation
+- [x] Output formatters (table/JSON/YAML)
 
 ### Authentication
 
-- [ ] `auth login` - OAuth2 token acquisition
-- [ ] `auth logout` - Token removal
+- [x] `auth login` - OAuth2 token acquisition
+- [x] `auth logout` - Token removal
 
 ### Read Commands
 
-- [ ] `projects list` - List all projects
-- [ ] `projects get` - Get project details
-- [ ] `features list` - List all features
-- [ ] `features get` - Get feature details
-- [ ] `variables list` - List all variables
-- [ ] `variables get` - Get variable details
-- [ ] `environments list` - List all environments
-- [ ] `environments get` - Get environment details
+- [x] `projects list` - List all projects
+- [x] `projects get` - Get project details
+- [x] `features list` - List all features
+- [x] `features get` - Get feature details
+- [x] `variables list` - List all variables
+- [x] `variables get` - Get variable details
+- [x] `environments list` - List all environments
+- [x] `environments get` - Get environment details
 
 ---
 
