@@ -1,7 +1,6 @@
 baseURL = "https://135yshr.github.io/devcycle-cli/"
 languageCode = "en"
 title = "dvcx - DevCycle CLI Extended"
-theme = "hugo-book"
 
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = true
