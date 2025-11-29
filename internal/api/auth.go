@@ -29,13 +29,17 @@ func (t *Token) IsExpired() bool {
 }
 
 func Authenticate(ctx context.Context, clientID, clientSecret string) (*Token, error) {
+	return authenticateInternal(ctx, AuthURL, clientID, clientSecret)
+}
+
+func authenticateInternal(ctx context.Context, authURL, clientID, clientSecret string) (*Token, error) {
 	data := url.Values{}
 	data.Set("grant_type", "client_credentials")
 	data.Set("client_id", clientID)
 	data.Set("client_secret", clientSecret)
 	data.Set("audience", "https://api.devcycle.com/")
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, AuthURL, strings.NewReader(data.Encode()))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, authURL, strings.NewReader(data.Encode()))
 	if err != nil {
 		return nil, fmt.Errorf("failed to create auth request: %w", err)
 	}
