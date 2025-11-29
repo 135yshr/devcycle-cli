@@ -1,0 +1,10 @@
+{
+  // Configuration for markdownlint-cli2
+  "config": {
+    "extends": ".markdownlint.json"
+  },
+  // Files/directories to ignore
+  "ignores": [
+    "website/**"
+  ]
+}

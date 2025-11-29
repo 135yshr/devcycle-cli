@@ -1,0 +1,20 @@
+# Hugo build output
+public/
+resources/_gen/
+
+# Hugo cache
+hugo_cache/
+
+# Node modules (if using npm for themes)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Hugo lock file (optional, can be committed)
+# .hugo_build.lock
