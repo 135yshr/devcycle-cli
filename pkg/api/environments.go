@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (c *Client) ListEnvironments(ctx context.Context, projectKey string) ([]Environment, error) {
+func (c *Client) Environments(ctx context.Context, projectKey string) ([]Environment, error) {
 	var environments []Environment
 	path := fmt.Sprintf("/projects/%s/environments", projectKey)
 	if err := c.Get(ctx, path, &environments); err != nil {
@@ -14,7 +14,7 @@ func (c *Client) ListEnvironments(ctx context.Context, projectKey string) ([]Env
 	return environments, nil
 }
 
-func (c *Client) GetEnvironment(ctx context.Context, projectKey, environmentKey string) (*Environment, error) {
+func (c *Client) Environment(ctx context.Context, projectKey, environmentKey string) (*Environment, error) {
 	var environment Environment
 	path := fmt.Sprintf("/projects/%s/environments/%s", projectKey, environmentKey)
 	if err := c.Get(ctx, path, &environment); err != nil {

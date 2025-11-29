@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (c *Client) ListVariables(ctx context.Context, projectKey string) ([]Variable, error) {
+func (c *Client) Variables(ctx context.Context, projectKey string) ([]Variable, error) {
 	var variables []Variable
 	path := fmt.Sprintf("/projects/%s/variables", projectKey)
 	if err := c.Get(ctx, path, &variables); err != nil {
@@ -14,7 +14,7 @@ func (c *Client) ListVariables(ctx context.Context, projectKey string) ([]Variab
 	return variables, nil
 }
 
-func (c *Client) GetVariable(ctx context.Context, projectKey, variableKey string) (*Variable, error) {
+func (c *Client) Variable(ctx context.Context, projectKey, variableKey string) (*Variable, error) {
 	var variable Variable
 	path := fmt.Sprintf("/projects/%s/variables/%s", projectKey, variableKey)
 	if err := c.Get(ctx, path, &variable); err != nil {

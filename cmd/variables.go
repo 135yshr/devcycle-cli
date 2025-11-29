@@ -77,7 +77,7 @@ func runVariablesList(cmd *cobra.Command, args []string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	variables, err := client.ListVariables(ctx, projectKey)
+	variables, err := client.Variables(ctx, projectKey)
 	if err != nil {
 		return err
 	}
@@ -104,7 +104,7 @@ func runVariablesGet(cmd *cobra.Command, args []string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	variable, err := client.GetVariable(ctx, projectKey, args[0])
+	variable, err := client.Variable(ctx, projectKey, args[0])
 	if err != nil {
 		return err
 	}

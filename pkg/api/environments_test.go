@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func TestClient_ListEnvironments(t *testing.T) {
+func TestClient_Environments(t *testing.T) {
 	t.Run("successful list", func(t *testing.T) {
 		environments := []Environment{
 			{
@@ -42,7 +42,7 @@ func TestClient_ListEnvironments(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL), WithToken("test-token"))
-		result, err := client.ListEnvironments(context.Background(), "my-project")
+		result, err := client.Environments(context.Background(), "my-project")
 
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -59,7 +59,7 @@ func TestClient_ListEnvironments(t *testing.T) {
 	})
 }
 
-func TestClient_GetEnvironment(t *testing.T) {
+func TestClient_Environment(t *testing.T) {
 	t.Run("successful get", func(t *testing.T) {
 		environment := Environment{
 			ID:          "env-1",
@@ -82,7 +82,7 @@ func TestClient_GetEnvironment(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL), WithToken("test-token"))
-		result, err := client.GetEnvironment(context.Background(), "my-project", "development")
+		result, err := client.Environment(context.Background(), "my-project", "development")
 
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -103,7 +103,7 @@ func TestClient_GetEnvironment(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL))
-		_, err := client.GetEnvironment(context.Background(), "my-project", "non-existent")
+		_, err := client.Environment(context.Background(), "my-project", "non-existent")
 
 		if err == nil {
 			t.Fatal("expected error, got nil")

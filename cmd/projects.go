@@ -67,7 +67,7 @@ func runProjectsList(cmd *cobra.Command, args []string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	projects, err := client.ListProjects(ctx)
+	projects, err := client.Projects(ctx)
 	if err != nil {
 		return err
 	}
@@ -89,7 +89,7 @@ func runProjectsGet(cmd *cobra.Command, args []string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	project, err := client.GetProject(ctx, args[0])
+	project, err := client.Project(ctx, args[0])
 	if err != nil {
 		return err
 	}

@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func TestClient_ListFeatures(t *testing.T) {
+func TestClient_Features(t *testing.T) {
 	t.Run("successful list", func(t *testing.T) {
 		features := []Feature{
 			{
@@ -42,7 +42,7 @@ func TestClient_ListFeatures(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL), WithToken("test-token"))
-		result, err := client.ListFeatures(context.Background(), "my-project")
+		result, err := client.Features(context.Background(), "my-project")
 
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -63,7 +63,7 @@ func TestClient_ListFeatures(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL))
-		result, err := client.ListFeatures(context.Background(), "my-project")
+		result, err := client.Features(context.Background(), "my-project")
 
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -74,7 +74,7 @@ func TestClient_ListFeatures(t *testing.T) {
 	})
 }
 
-func TestClient_GetFeature(t *testing.T) {
+func TestClient_Feature(t *testing.T) {
 	t.Run("successful get", func(t *testing.T) {
 		feature := Feature{
 			ID:          "feat-1",
@@ -97,7 +97,7 @@ func TestClient_GetFeature(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL), WithToken("test-token"))
-		result, err := client.GetFeature(context.Background(), "my-project", "feature-one")
+		result, err := client.Feature(context.Background(), "my-project", "feature-one")
 
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -118,7 +118,7 @@ func TestClient_GetFeature(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL))
-		_, err := client.GetFeature(context.Background(), "my-project", "non-existent")
+		_, err := client.Feature(context.Background(), "my-project", "non-existent")
 
 		if err == nil {
 			t.Fatal("expected error, got nil")

@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func TestClient_ListProjects(t *testing.T) {
+func TestClient_Projects(t *testing.T) {
 	t.Run("successful list", func(t *testing.T) {
 		projects := []Project{
 			{
@@ -40,7 +40,7 @@ func TestClient_ListProjects(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL), WithToken("test-token"))
-		result, err := client.ListProjects(context.Background())
+		result, err := client.Projects(context.Background())
 
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -61,7 +61,7 @@ func TestClient_ListProjects(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL))
-		result, err := client.ListProjects(context.Background())
+		result, err := client.Projects(context.Background())
 
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -79,7 +79,7 @@ func TestClient_ListProjects(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL))
-		_, err := client.ListProjects(context.Background())
+		_, err := client.Projects(context.Background())
 
 		if err == nil {
 			t.Fatal("expected error, got nil")
@@ -87,7 +87,7 @@ func TestClient_ListProjects(t *testing.T) {
 	})
 }
 
-func TestClient_GetProject(t *testing.T) {
+func TestClient_Project(t *testing.T) {
 	t.Run("successful get", func(t *testing.T) {
 		project := Project{
 			ID:          "proj-1",
@@ -108,7 +108,7 @@ func TestClient_GetProject(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL), WithToken("test-token"))
-		result, err := client.GetProject(context.Background(), "my-project")
+		result, err := client.Project(context.Background(), "my-project")
 
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -129,7 +129,7 @@ func TestClient_GetProject(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL))
-		_, err := client.GetProject(context.Background(), "non-existent")
+		_, err := client.Project(context.Background(), "non-existent")
 
 		if err == nil {
 			t.Fatal("expected error, got nil")

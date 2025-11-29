@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-func TestClient_ListVariables(t *testing.T) {
+func TestClient_Variables(t *testing.T) {
 	t.Run("successful list", func(t *testing.T) {
 		variables := []Variable{
 			{
@@ -42,7 +42,7 @@ func TestClient_ListVariables(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL), WithToken("test-token"))
-		result, err := client.ListVariables(context.Background(), "my-project")
+		result, err := client.Variables(context.Background(), "my-project")
 
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -56,7 +56,7 @@ func TestClient_ListVariables(t *testing.T) {
 	})
 }
 
-func TestClient_GetVariable(t *testing.T) {
+func TestClient_Variable(t *testing.T) {
 	t.Run("successful get", func(t *testing.T) {
 		variable := Variable{
 			ID:          "var-1",
@@ -79,7 +79,7 @@ func TestClient_GetVariable(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL), WithToken("test-token"))
-		result, err := client.GetVariable(context.Background(), "my-project", "enable-feature")
+		result, err := client.Variable(context.Background(), "my-project", "enable-feature")
 
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -100,7 +100,7 @@ func TestClient_GetVariable(t *testing.T) {
 		defer server.Close()
 
 		client := NewClient(WithBaseURL(server.URL))
-		_, err := client.GetVariable(context.Background(), "my-project", "non-existent")
+		_, err := client.Variable(context.Background(), "my-project", "non-existent")
 
 		if err == nil {
 			t.Fatal("expected error, got nil")

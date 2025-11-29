@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (c *Client) ListFeatures(ctx context.Context, projectKey string) ([]Feature, error) {
+func (c *Client) Features(ctx context.Context, projectKey string) ([]Feature, error) {
 	var features []Feature
 	path := fmt.Sprintf("/projects/%s/features", projectKey)
 	if err := c.Get(ctx, path, &features); err != nil {
@@ -14,7 +14,7 @@ func (c *Client) ListFeatures(ctx context.Context, projectKey string) ([]Feature
 	return features, nil
 }
 
-func (c *Client) GetFeature(ctx context.Context, projectKey, featureKey string) (*Feature, error) {
+func (c *Client) Feature(ctx context.Context, projectKey, featureKey string) (*Feature, error) {
 	var feature Feature
 	path := fmt.Sprintf("/projects/%s/features/%s", projectKey, featureKey)
 	if err := c.Get(ctx, path, &feature); err != nil {

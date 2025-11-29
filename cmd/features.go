@@ -77,7 +77,7 @@ func runFeaturesList(cmd *cobra.Command, args []string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	features, err := client.ListFeatures(ctx, projectKey)
+	features, err := client.Features(ctx, projectKey)
 	if err != nil {
 		return err
 	}
@@ -104,7 +104,7 @@ func runFeaturesGet(cmd *cobra.Command, args []string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	feature, err := client.GetFeature(ctx, projectKey, args[0])
+	feature, err := client.Feature(ctx, projectKey, args[0])
 	if err != nil {
 		return err
 	}

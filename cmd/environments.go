@@ -78,7 +78,7 @@ func runEnvironmentsList(cmd *cobra.Command, args []string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	environments, err := client.ListEnvironments(ctx, projectKey)
+	environments, err := client.Environments(ctx, projectKey)
 	if err != nil {
 		return err
 	}
@@ -105,7 +105,7 @@ func runEnvironmentsGet(cmd *cobra.Command, args []string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 
-	environment, err := client.GetEnvironment(ctx, projectKey, args[0])
+	environment, err := client.Environment(ctx, projectKey, args[0])
 	if err != nil {
 		return err
 	}
