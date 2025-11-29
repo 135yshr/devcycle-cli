@@ -22,3 +22,44 @@ func (c *Client) Variable(ctx context.Context, projectKey, variableKey string) (
 	}
 	return &variable, nil
 }
+
+// CreateVariableRequest represents the request body for creating a variable.
+type CreateVariableRequest struct {
+	Name        string `json:"name"`
+	Key         string `json:"key"`
+	Description string `json:"description,omitempty"`
+	Type        string `json:"type"`
+	Feature     string `json:"_feature,omitempty"`
+}
+
+// UpdateVariableRequest represents the request body for updating a variable.
+type UpdateVariableRequest struct {
+	Name        string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
+}
+
+func (c *Client) CreateVariable(ctx context.Context, projectKey string, req *CreateVariableRequest) (*Variable, error) {
+	var variable Variable
+	path := fmt.Sprintf("/projects/%s/variables", projectKey)
+	if err := c.Post(ctx, path, req, &variable); err != nil {
+		return nil, fmt.Errorf("failed to create variable: %w", err)
+	}
+	return &variable, nil
+}
+
+func (c *Client) UpdateVariable(ctx context.Context, projectKey, variableKey string, req *UpdateVariableRequest) (*Variable, error) {
+	var variable Variable
+	path := fmt.Sprintf("/projects/%s/variables/%s", projectKey, variableKey)
+	if err := c.Patch(ctx, path, req, &variable); err != nil {
+		return nil, fmt.Errorf("failed to update variable: %w", err)
+	}
+	return &variable, nil
+}
+
+func (c *Client) DeleteVariable(ctx context.Context, projectKey, variableKey string) error {
+	path := fmt.Sprintf("/projects/%s/variables/%s", projectKey, variableKey)
+	if err := c.Delete(ctx, path); err != nil {
+		return fmt.Errorf("failed to delete variable: %w", err)
+	}
+	return nil
+}

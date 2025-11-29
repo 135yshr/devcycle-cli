@@ -7,7 +7,7 @@ This document outlines the implementation phases for `dvcx`.
 | Phase | Focus | Status |
 |-------|-------|--------|
 | Phase 1 | Foundation + Basic Operations (MVP) | Completed |
-| Phase 2 | Write Operations | Planned |
+| Phase 2 | Write Operations | Completed |
 | Phase 3 | Targeting & Variations | Planned |
 | Phase 4 | Audiences & Overrides | Planned |
 | Phase 5 | Operations & Monitoring | Planned |
@@ -51,20 +51,20 @@ This document outlines the implementation phases for `dvcx`.
 
 ### Feature Management
 
-- [ ] `features create` - Create a new feature
-- [ ] `features update` - Update a feature
-- [ ] `features delete` - Delete a feature
+- [x] `features create` - Create a new feature
+- [x] `features update` - Update a feature
+- [x] `features delete` - Delete a feature
 
 ### Variable Management
 
-- [ ] `variables create` - Create a new variable
-- [ ] `variables update` - Update a variable
-- [ ] `variables delete` - Delete a variable
+- [x] `variables create` - Create a new variable
+- [x] `variables update` - Update a variable
+- [x] `variables delete` - Delete a variable
 
 ### Project Management
 
-- [ ] `projects create` - Create a new project
-- [ ] `projects update` - Update a project
+- [x] `projects create` - Create a new project
+- [x] `projects update` - Update a project
 
 ---
 

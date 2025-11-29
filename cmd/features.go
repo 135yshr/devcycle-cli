@@ -31,14 +31,60 @@ var featuresGetCmd = &cobra.Command{
 	RunE:  runFeaturesGet,
 }
 
+var featuresCreateCmd = &cobra.Command{
+	Use:   "create",
+	Short: "Create a new feature",
+	Long:  `Create a new feature in a project.`,
+	RunE:  runFeaturesCreate,
+}
+
+var featuresUpdateCmd = &cobra.Command{
+	Use:   "update [feature-key]",
+	Short: "Update a feature",
+	Long:  `Update an existing feature.`,
+	Args:  cobra.ExactArgs(1),
+	RunE:  runFeaturesUpdate,
+}
+
+var featuresDeleteCmd = &cobra.Command{
+	Use:   "delete [feature-key]",
+	Short: "Delete a feature",
+	Long:  `Delete a feature from a project.`,
+	Args:  cobra.ExactArgs(1),
+	RunE:  runFeaturesDelete,
+}
+
 var featureProject string
+var featureName string
+var featureKey string
+var featureDescription string
+var featureType string
+var featureForce bool
 
 func init() {
 	rootCmd.AddCommand(featuresCmd)
 	featuresCmd.AddCommand(featuresListCmd)
 	featuresCmd.AddCommand(featuresGetCmd)
+	featuresCmd.AddCommand(featuresCreateCmd)
+	featuresCmd.AddCommand(featuresUpdateCmd)
+	featuresCmd.AddCommand(featuresDeleteCmd)
 
 	featuresCmd.PersistentFlags().StringVarP(&featureProject, "project", "p", "", "project key (uses config default if not specified)")
+
+	// Create command flags
+	featuresCreateCmd.Flags().StringVarP(&featureName, "name", "n", "", "feature name (required)")
+	featuresCreateCmd.Flags().StringVarP(&featureKey, "key", "k", "", "feature key (required)")
+	featuresCreateCmd.Flags().StringVarP(&featureDescription, "description", "d", "", "feature description")
+	featuresCreateCmd.Flags().StringVarP(&featureType, "type", "t", "release", "feature type (release, experiment, permission, ops)")
+	featuresCreateCmd.MarkFlagRequired("name")
+	featuresCreateCmd.MarkFlagRequired("key")
+
+	// Update command flags
+	featuresUpdateCmd.Flags().StringVarP(&featureName, "name", "n", "", "feature name")
+	featuresUpdateCmd.Flags().StringVarP(&featureDescription, "description", "d", "", "feature description")
+
+	// Delete command flags
+	featuresDeleteCmd.Flags().BoolVarP(&featureForce, "force", "f", false, "skip confirmation prompt")
 }
 
 type featuresTableData struct {
@@ -118,4 +164,90 @@ func getProjectKey() string {
 		return featureProject
 	}
 	return config.Project()
+}
+
+func runFeaturesCreate(cmd *cobra.Command, args []string) error {
+	projectKey := getProjectKey()
+	if projectKey == "" {
+		return errProjectRequired
+	}
+
+	client, err := getClient()
+	if err != nil {
+		return err
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	req := &api.CreateFeatureRequest{
+		Name:        featureName,
+		Key:         featureKey,
+		Description: featureDescription,
+		Type:        featureType,
+	}
+
+	feature, err := client.CreateFeature(ctx, projectKey, req)
+	if err != nil {
+		return err
+	}
+
+	printer := output.NewPrinter(output.ParseFormat(GetOutput()))
+	return printer.Print(feature)
+}
+
+func runFeaturesUpdate(cmd *cobra.Command, args []string) error {
+	projectKey := getProjectKey()
+	if projectKey == "" {
+		return errProjectRequired
+	}
+
+	client, err := getClient()
+	if err != nil {
+		return err
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	req := &api.UpdateFeatureRequest{
+		Name:        featureName,
+		Description: featureDescription,
+	}
+
+	feature, err := client.UpdateFeature(ctx, projectKey, args[0], req)
+	if err != nil {
+		return err
+	}
+
+	printer := output.NewPrinter(output.ParseFormat(GetOutput()))
+	return printer.Print(feature)
+}
+
+func runFeaturesDelete(cmd *cobra.Command, args []string) error {
+	projectKey := getProjectKey()
+	if projectKey == "" {
+		return errProjectRequired
+	}
+
+	featureKey := args[0]
+	if !confirmDelete("feature", featureKey, featureForce) {
+		cmd.Println("Delete cancelled")
+		return nil
+	}
+
+	client, err := getClient()
+	if err != nil {
+		return err
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	if err := client.DeleteFeature(ctx, projectKey, featureKey); err != nil {
+		return err
+	}
+
+	cmd.Printf("Feature '%s' deleted successfully\n", featureKey)
+	return nil
 }
