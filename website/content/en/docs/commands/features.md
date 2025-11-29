@@ -136,7 +136,14 @@ Create a new feature in a project.
 ### Usage
 
 ```bash
-dvcx features create [flags]
+# Simple create (v1 API)
+dvcx features create --name <name> --key <key> [flags]
+
+# Create from JSON file (v2 API)
+dvcx features create --from-file <file.json> [flags]
+
+# Create from stdin (v2 API)
+dvcx features create --from-file - [flags]
 ```
 
 ### Flags
@@ -144,13 +151,15 @@ dvcx features create [flags]
 | Flag | Short | Description | Required |
 |------|-------|-------------|----------|
 | `--project` | `-p` | Project key | Yes (or set in config) |
-| `--name` | `-n` | Feature name | Yes |
-| `--key` | `-k` | Feature key | Yes |
+| `--name` | `-n` | Feature name | Yes (for simple create) |
+| `--key` | `-k` | Feature key | Yes (for simple create) |
 | `--description` | `-d` | Feature description | No |
 | `--type` | `-t` | Feature type (release, experiment, permission, ops) | No (default: release) |
+| `--from-file` | `-F` | JSON input file for feature creation (uses v2 API), use `-` for stdin | No |
+| `--dry-run` | | Validate configuration without creating | No |
 | `--output` | `-o` | Output format (table, json, yaml) | No |
 
-### Example
+### Simple Create Example
 
 ```bash
 # Create a release feature
@@ -168,11 +177,113 @@ $ dvcx features create -p my-app -n "New Checkout" -k new-checkout -t experiment
 $ dvcx features create -p my-app -n "Beta Feature" -k beta-feature -o json
 ```
 
+### Create from JSON File (v2 API)
+
+The `--from-file` flag enables full feature configuration using the v2 API, including variables, variations, and targeting rules.
+
+```bash
+# Create from JSON file
+$ dvcx features create -p my-app --from-file feature.json
+
+# Validate without creating (dry-run)
+$ dvcx features create -p my-app --from-file feature.json --dry-run
+```
+
+#### JSON File Format
+
+```json
+{
+  "name": "Dark Mode",
+  "key": "dark-mode",
+  "description": "Enable dark mode theme",
+  "type": "release",
+  "tags": ["ui", "theme"],
+  "variables": [
+    {
+      "key": "enabled",
+      "name": "Enabled",
+      "type": "Boolean"
+    }
+  ],
+  "variations": [
+    {
+      "key": "off",
+      "name": "Off",
+      "variables": { "enabled": false }
+    },
+    {
+      "key": "on",
+      "name": "On",
+      "variables": { "enabled": true }
+    }
+  ],
+  "controlVariation": "off",
+  "configurations": {
+    "development": {
+      "status": "active",
+      "targets": [
+        {
+          "name": "All Users",
+          "audience": {
+            "filters": {
+              "operator": "and",
+              "filters": [{ "type": "all" }]
+            }
+          },
+          "distribution": [
+            { "_variation": "on", "percentage": 1.0 }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+### Create from stdin
+
+You can pipe JSON content directly to the command using `-` as the file path.
+
+```bash
+# Pipe from file
+$ cat feature.json | dvcx features create -p my-app --from-file -
+
+# Use heredoc
+$ dvcx features create -p my-app --from-file - <<EOF
+{
+  "name": "Quick Feature",
+  "key": "quick-feature",
+  "type": "release"
+}
+EOF
+
+# Pipe from another command (e.g., jq)
+$ jq '.features[0]' features.json | dvcx features create -p my-app --from-file -
+```
+
+### v2 API Supported Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | string | Feature name (required) |
+| `key` | string | Feature key (required) |
+| `description` | string | Feature description |
+| `type` | string | Feature type: release, experiment, permission, ops |
+| `tags` | string[] | Tags for organizing features |
+| `variables` | object[] | Variable definitions |
+| `variations` | object[] | Variation definitions with variable values |
+| `controlVariation` | string | Key of the control variation |
+| `configurations` | object | Environment-specific targeting configurations |
+| `sdkVisibility` | object | SDK visibility settings (mobile, client, server) |
+| `settings` | object | Feature settings (publicName, publicDescription, optInEnabled) |
+
 ### Notes
 
 - Feature keys must be unique within a project
 - Feature keys can contain lowercase letters, numbers, hyphens, and underscores
 - Default feature type is `release` if not specified
+- Use `--from-file -` to read JSON from stdin
+- Use `--dry-run` to validate configuration without creating the feature
 
 ---
 

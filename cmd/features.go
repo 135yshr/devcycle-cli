@@ -79,7 +79,7 @@ func init() {
 	featuresCreateCmd.Flags().StringVarP(&featureKey, "key", "k", "", "feature key (required for simple create)")
 	featuresCreateCmd.Flags().StringVarP(&featureDescription, "description", "d", "", "feature description")
 	featuresCreateCmd.Flags().StringVarP(&featureType, "type", "t", "release", "feature type (release, experiment, permission, ops)")
-	featuresCreateCmd.Flags().StringVarP(&featureFromFile, "from-file", "F", "", "JSON input file for feature creation (uses v2 API)")
+	featuresCreateCmd.Flags().StringVarP(&featureFromFile, "from-file", "F", "", "JSON input file for feature creation (uses v2 API), use '-' for stdin")
 	featuresCreateCmd.Flags().BoolVar(&featureDryRun, "dry-run", false, "validate configuration without creating")
 
 	// Update command flags

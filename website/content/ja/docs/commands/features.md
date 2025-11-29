@@ -136,7 +136,14 @@ $ dvcx features get dark-mode -p my-app -o json
 ### 使用方法
 
 ```bash
-dvcx features create [flags]
+# シンプルな作成（v1 API）
+dvcx features create --name <name> --key <key> [flags]
+
+# JSONファイルから作成（v2 API）
+dvcx features create --from-file <file.json> [flags]
+
+# 標準入力から作成（v2 API）
+dvcx features create --from-file - [flags]
 ```
 
 ### フラグ
@@ -144,13 +151,15 @@ dvcx features create [flags]
 | フラグ | 短縮形 | 説明 | 必須 |
 |------|-------|------|------|
 | `--project` | `-p` | プロジェクトキー | はい（または設定で指定） |
-| `--name` | `-n` | フィーチャー名 | はい |
-| `--key` | `-k` | フィーチャーキー | はい |
+| `--name` | `-n` | フィーチャー名 | はい（シンプル作成の場合） |
+| `--key` | `-k` | フィーチャーキー | はい（シンプル作成の場合） |
 | `--description` | `-d` | フィーチャーの説明 | いいえ |
 | `--type` | `-t` | フィーチャータイプ (release, experiment, permission, ops) | いいえ（デフォルト: release） |
+| `--from-file` | `-F` | フィーチャー作成用のJSON入力ファイル（v2 APIを使用）、標準入力の場合は`-`を指定 | いいえ |
+| `--dry-run` | | 作成せずに設定を検証 | いいえ |
 | `--output` | `-o` | 出力形式 (table, json, yaml) | いいえ |
 
-### 例
+### シンプル作成の例
 
 ```bash
 # リリースフィーチャーを作成
@@ -168,11 +177,113 @@ $ dvcx features create -p my-app -n "New Checkout" -k new-checkout -t experiment
 $ dvcx features create -p my-app -n "Beta Feature" -k beta-feature -o json
 ```
 
+### JSONファイルから作成（v2 API）
+
+`--from-file`フラグを使用すると、v2 APIを使用して変数、バリエーション、ターゲティングルールを含む完全なフィーチャー設定が可能になります。
+
+```bash
+# JSONファイルから作成
+$ dvcx features create -p my-app --from-file feature.json
+
+# 作成せずに検証（dry-run）
+$ dvcx features create -p my-app --from-file feature.json --dry-run
+```
+
+#### JSONファイル形式
+
+```json
+{
+  "name": "Dark Mode",
+  "key": "dark-mode",
+  "description": "ダークモードテーマを有効化",
+  "type": "release",
+  "tags": ["ui", "theme"],
+  "variables": [
+    {
+      "key": "enabled",
+      "name": "Enabled",
+      "type": "Boolean"
+    }
+  ],
+  "variations": [
+    {
+      "key": "off",
+      "name": "Off",
+      "variables": { "enabled": false }
+    },
+    {
+      "key": "on",
+      "name": "On",
+      "variables": { "enabled": true }
+    }
+  ],
+  "controlVariation": "off",
+  "configurations": {
+    "development": {
+      "status": "active",
+      "targets": [
+        {
+          "name": "All Users",
+          "audience": {
+            "filters": {
+              "operator": "and",
+              "filters": [{ "type": "all" }]
+            }
+          },
+          "distribution": [
+            { "_variation": "on", "percentage": 1.0 }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+### 標準入力から作成
+
+ファイルパスとして`-`を指定することで、JSONコンテンツを直接コマンドにパイプできます。
+
+```bash
+# ファイルからパイプ
+$ cat feature.json | dvcx features create -p my-app --from-file -
+
+# ヒアドキュメントを使用
+$ dvcx features create -p my-app --from-file - <<EOF
+{
+  "name": "Quick Feature",
+  "key": "quick-feature",
+  "type": "release"
+}
+EOF
+
+# 他のコマンドからパイプ（例: jq）
+$ jq '.features[0]' features.json | dvcx features create -p my-app --from-file -
+```
+
+### v2 APIでサポートされるフィールド
+
+| フィールド | 型 | 説明 |
+|-----------|------|------|
+| `name` | string | フィーチャー名（必須） |
+| `key` | string | フィーチャーキー（必須） |
+| `description` | string | フィーチャーの説明 |
+| `type` | string | フィーチャータイプ: release, experiment, permission, ops |
+| `tags` | string[] | フィーチャーを整理するためのタグ |
+| `variables` | object[] | 変数定義 |
+| `variations` | object[] | 変数値を含むバリエーション定義 |
+| `controlVariation` | string | コントロールバリエーションのキー |
+| `configurations` | object | 環境固有のターゲティング設定 |
+| `sdkVisibility` | object | SDK可視性設定（mobile, client, server） |
+| `settings` | object | フィーチャー設定（publicName, publicDescription, optInEnabled） |
+
 ### 注意事項
 
 - フィーチャーキーはプロジェクト内で一意である必要があります
 - フィーチャーキーには小文字、数字、ハイフン、アンダースコアを含めることができます
 - 指定しない場合、デフォルトのフィーチャータイプは`release`です
+- 標準入力からJSONを読み込むには`--from-file -`を使用します
+- フィーチャーを作成せずに設定を検証するには`--dry-run`を使用します
 
 ---
 

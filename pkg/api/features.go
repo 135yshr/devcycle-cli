@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -97,14 +98,28 @@ func (c *Client) UpdateFeatureV2(ctx context.Context, projectKey, featureKey str
 }
 
 // LoadFeatureRequestFromFile loads a CreateFeatureV2Request from a JSON file
+// If filePath is "-", it reads from stdin
 func LoadFeatureRequestFromFile(filePath string) (*CreateFeatureV2Request, error) {
-	data, err := os.ReadFile(filePath)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read file %s: %w", filePath, err)
+	var data []byte
+	var err error
+
+	if filePath == "-" {
+		data, err = io.ReadAll(os.Stdin)
+		if err != nil {
+			return nil, fmt.Errorf("failed to read from stdin: %w", err)
+		}
+	} else {
+		data, err = os.ReadFile(filePath)
+		if err != nil {
+			return nil, fmt.Errorf("failed to read file %s: %w", filePath, err)
+		}
 	}
 
 	var req CreateFeatureV2Request
 	if err := json.Unmarshal(data, &req); err != nil {
+		if filePath == "-" {
+			return nil, fmt.Errorf("failed to parse JSON from stdin: %w", err)
+		}
 		return nil, fmt.Errorf("failed to parse JSON from %s: %w", filePath, err)
 	}
 
