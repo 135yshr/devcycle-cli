@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	cfgFile string
-	output  string
+	cfgFile      string
+	outputFormat string
 )
 
 var rootCmd = &cobra.Command{
@@ -38,7 +38,7 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is .devcycle/config.yaml)")
-	rootCmd.PersistentFlags().StringVarP(&output, "output", "o", "table", "output format (table, json, yaml)")
+	rootCmd.PersistentFlags().StringVarP(&outputFormat, "output", "o", "table", "output format (table, json, yaml)")
 
 	viper.BindPFlag("output", rootCmd.PersistentFlags().Lookup("output"))
 }
