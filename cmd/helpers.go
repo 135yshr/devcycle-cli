@@ -6,7 +6,7 @@ import (
 )
 
 func loadToken() (*api.Token, error) {
-	tokenPath, err := config.GetTokenPath()
+	tokenPath, err := config.TokenFilePath()
 	if err != nil {
 		return nil, err
 	}

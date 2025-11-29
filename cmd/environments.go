@@ -118,5 +118,5 @@ func getEnvProjectKey() string {
 	if envProject != "" {
 		return envProject
 	}
-	return config.GetProject()
+	return config.Project()
 }

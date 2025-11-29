@@ -117,5 +117,5 @@ func getProjectKey() string {
 	if featureProject != "" {
 		return featureProject
 	}
-	return config.GetProject()
+	return config.Project()
 }

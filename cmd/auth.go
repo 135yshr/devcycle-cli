@@ -53,7 +53,7 @@ func init() {
 func runLogin(cmd *cobra.Command, args []string) error {
 	id := clientID
 	if id == "" {
-		id = config.GetClientID()
+		id = config.ClientID()
 	}
 	if id == "" {
 		return fmt.Errorf("client ID is required (use --client-id flag, DVCX_CLIENT_ID env var, or config file)")
@@ -61,7 +61,7 @@ func runLogin(cmd *cobra.Command, args []string) error {
 
 	secret := clientSecret
 	if secret == "" {
-		secret = config.GetClientSecret()
+		secret = config.ClientSecret()
 	}
 	if secret == "" {
 		return fmt.Errorf("client secret is required (use --client-secret flag, DVCX_CLIENT_SECRET env var, or config file)")
@@ -81,7 +81,7 @@ func runLogin(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("failed to create config directory: %w", err)
 	}
 
-	tokenPath, err := config.GetTokenPath()
+	tokenPath, err := config.TokenFilePath()
 	if err != nil {
 		return fmt.Errorf("failed to get token path: %w", err)
 	}
@@ -97,7 +97,7 @@ func runLogin(cmd *cobra.Command, args []string) error {
 }
 
 func runLogout(cmd *cobra.Command, args []string) error {
-	tokenPath, err := config.GetTokenPath()
+	tokenPath, err := config.TokenFilePath()
 	if err != nil {
 		return fmt.Errorf("failed to get token path: %w", err)
 	}

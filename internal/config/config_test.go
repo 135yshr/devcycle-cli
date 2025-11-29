@@ -7,8 +7,8 @@ import (
 	"testing"
 )
 
-func TestGetConfigDir(t *testing.T) {
-	dir, err := GetConfigDir()
+func TestConfigDirPath(t *testing.T) {
+	dir, err := ConfigDirPath()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -18,8 +18,8 @@ func TestGetConfigDir(t *testing.T) {
 	}
 }
 
-func TestGetConfigPath(t *testing.T) {
-	path, err := GetConfigPath()
+func TestConfigFilePath(t *testing.T) {
+	path, err := ConfigFilePath()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -29,8 +29,8 @@ func TestGetConfigPath(t *testing.T) {
 	}
 }
 
-func TestGetTokenPath(t *testing.T) {
-	path, err := GetTokenPath()
+func TestTokenFilePath(t *testing.T) {
+	path, err := TokenFilePath()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -74,7 +74,7 @@ func TestSetAndGetProject(t *testing.T) {
 
 	SetProject(projectKey)
 
-	result := GetProject()
+	result := Project()
 	if result != projectKey {
 		t.Errorf("expected %s, got %s", projectKey, result)
 	}
@@ -85,7 +85,7 @@ func TestSetAndGetEnvironment(t *testing.T) {
 
 	SetEnvironment(envKey)
 
-	result := GetEnvironment()
+	result := Environment()
 	if result != envKey {
 		t.Errorf("expected %s, got %s", envKey, result)
 	}

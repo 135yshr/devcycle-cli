@@ -117,5 +117,5 @@ func getVariableProjectKey() string {
 	if variableProject != "" {
 		return variableProject
 	}
-	return config.GetProject()
+	return config.Project()
 }

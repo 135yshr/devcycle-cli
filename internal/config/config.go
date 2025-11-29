@@ -32,7 +32,7 @@ func Get() *Config {
 	return &current
 }
 
-func GetConfigDir() (string, error) {
+func ConfigDirPath() (string, error) {
 	pwd, err := os.Getwd()
 	if err != nil {
 		return "", err
@@ -40,16 +40,16 @@ func GetConfigDir() (string, error) {
 	return filepath.Join(pwd, ConfigDir), nil
 }
 
-func GetConfigPath() (string, error) {
-	dir, err := GetConfigDir()
+func ConfigFilePath() (string, error) {
+	dir, err := ConfigDirPath()
 	if err != nil {
 		return "", err
 	}
 	return filepath.Join(dir, ConfigFile), nil
 }
 
-func GetTokenPath() (string, error) {
-	dir, err := GetConfigDir()
+func TokenFilePath() (string, error) {
+	dir, err := ConfigDirPath()
 	if err != nil {
 		return "", err
 	}
@@ -57,7 +57,7 @@ func GetTokenPath() (string, error) {
 }
 
 func EnsureConfigDir() error {
-	dir, err := GetConfigDir()
+	dir, err := ConfigDirPath()
 	if err != nil {
 		return err
 	}
@@ -74,22 +74,22 @@ func SetEnvironment(env string) {
 	viper.Set("environment", env)
 }
 
-func GetProject() string {
+func Project() string {
 	return viper.GetString("project")
 }
 
-func GetEnvironment() string {
+func Environment() string {
 	return viper.GetString("environment")
 }
 
-func GetClientID() string {
+func ClientID() string {
 	return viper.GetString("client_id")
 }
 
-func GetClientSecret() string {
+func ClientSecret() string {
 	return viper.GetString("client_secret")
 }
 
-func IsDebug() bool {
+func Debug() bool {
 	return viper.GetBool("debug")
 }
