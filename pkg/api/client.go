@@ -11,9 +11,10 @@ import (
 )
 
 const (
-	DefaultBaseURL = "https://api.devcycle.com/v1"
-	AuthURL        = "https://auth.devcycle.com/oauth/token"
-	DefaultTimeout = 30 * time.Second
+	DefaultBaseURL   = "https://api.devcycle.com/v1"
+	DefaultBaseURLV2 = "https://api.devcycle.com/v2"
+	AuthURL          = "https://auth.devcycle.com/oauth/token"
+	DefaultTimeout   = 30 * time.Second
 )
 
 type Client struct {
@@ -125,4 +126,65 @@ func (c *Client) Patch(ctx context.Context, path string, body any, result any) e
 
 func (c *Client) Delete(ctx context.Context, path string) error {
 	return c.do(ctx, http.MethodDelete, path, nil, nil)
+}
+
+// doV2 executes HTTP request against v2 API endpoint
+func (c *Client) doV2(ctx context.Context, method, path string, body any, result any) error {
+	var bodyReader io.Reader
+	if body != nil {
+		jsonBody, err := json.Marshal(body)
+		if err != nil {
+			return fmt.Errorf("failed to marshal request body: %w", err)
+		}
+		bodyReader = bytes.NewReader(jsonBody)
+	}
+
+	url := DefaultBaseURLV2 + path
+	req, err := http.NewRequestWithContext(ctx, method, url, bodyReader)
+	if err != nil {
+		return fmt.Errorf("failed to create request: %w", err)
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "application/json")
+
+	if c.token != "" {
+		req.Header.Set("Authorization", "Bearer "+c.token)
+	}
+
+	resp, err := c.httpClient.Do(req)
+	if err != nil {
+		return fmt.Errorf("request failed: %w", err)
+	}
+	defer resp.Body.Close()
+
+	respBody, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return fmt.Errorf("failed to read response body: %w", err)
+	}
+
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		return &APIError{
+			StatusCode: resp.StatusCode,
+			Message:    string(respBody),
+		}
+	}
+
+	if result != nil && len(respBody) > 0 {
+		if err := json.Unmarshal(respBody, result); err != nil {
+			return fmt.Errorf("failed to unmarshal response: %w", err)
+		}
+	}
+
+	return nil
+}
+
+// PostV2 sends POST request to v2 API
+func (c *Client) PostV2(ctx context.Context, path string, body any, result any) error {
+	return c.doV2(ctx, http.MethodPost, path, body, result)
+}
+
+// PatchV2 sends PATCH request to v2 API
+func (c *Client) PatchV2(ctx context.Context, path string, body any, result any) error {
+	return c.doV2(ctx, http.MethodPatch, path, body, result)
 }

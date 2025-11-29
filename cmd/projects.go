@@ -31,10 +31,42 @@ var projectsGetCmd = &cobra.Command{
 	RunE:  runProjectsGet,
 }
 
+var projectsCreateCmd = &cobra.Command{
+	Use:   "create",
+	Short: "Create a new project",
+	Long:  `Create a new DevCycle project.`,
+	RunE:  runProjectsCreate,
+}
+
+var projectsUpdateCmd = &cobra.Command{
+	Use:   "update [project-key]",
+	Short: "Update a project",
+	Long:  `Update an existing project.`,
+	Args:  cobra.ExactArgs(1),
+	RunE:  runProjectsUpdate,
+}
+
+var projectName string
+var projectKey string
+var projectDescription string
+
 func init() {
 	rootCmd.AddCommand(projectsCmd)
 	projectsCmd.AddCommand(projectsListCmd)
 	projectsCmd.AddCommand(projectsGetCmd)
+	projectsCmd.AddCommand(projectsCreateCmd)
+	projectsCmd.AddCommand(projectsUpdateCmd)
+
+	// Create command flags
+	projectsCreateCmd.Flags().StringVarP(&projectName, "name", "n", "", "project name (required)")
+	projectsCreateCmd.Flags().StringVarP(&projectKey, "key", "k", "", "project key (required)")
+	projectsCreateCmd.Flags().StringVarP(&projectDescription, "description", "d", "", "project description")
+	projectsCreateCmd.MarkFlagRequired("name")
+	projectsCreateCmd.MarkFlagRequired("key")
+
+	// Update command flags
+	projectsUpdateCmd.Flags().StringVarP(&projectName, "name", "n", "", "project name")
+	projectsUpdateCmd.Flags().StringVarP(&projectDescription, "description", "d", "", "project description")
 }
 
 type projectsTableData struct {
@@ -116,4 +148,51 @@ func truncate(s string, maxLen int) string {
 		return s
 	}
 	return s[:maxLen-3] + "..."
+}
+
+func runProjectsCreate(cmd *cobra.Command, args []string) error {
+	client, err := getClient()
+	if err != nil {
+		return err
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	req := &api.CreateProjectRequest{
+		Name:        projectName,
+		Key:         projectKey,
+		Description: projectDescription,
+	}
+
+	project, err := client.CreateProject(ctx, req)
+	if err != nil {
+		return err
+	}
+
+	printer := output.NewPrinter(output.ParseFormat(GetOutput()))
+	return printer.Print(project)
+}
+
+func runProjectsUpdate(cmd *cobra.Command, args []string) error {
+	client, err := getClient()
+	if err != nil {
+		return err
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	req := &api.UpdateProjectRequest{
+		Name:        projectName,
+		Description: projectDescription,
+	}
+
+	project, err := client.UpdateProject(ctx, args[0], req)
+	if err != nil {
+		return err
+	}
+
+	printer := output.NewPrinter(output.ParseFormat(GetOutput()))
+	return printer.Print(project)
 }
