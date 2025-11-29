@@ -59,15 +59,17 @@ devcycle-cli/
 │   ├── projects.go        # Project commands
 │   ├── features.go        # Feature commands
 │   └── ...
+├── pkg/                   # Public packages (importable by external projects)
+│   └── api/               # API client
+│       ├── client.go      # HTTP client
+│       ├── auth.go        # Authentication
+│       ├── models.go      # Data models
+│       └── ...
 ├── internal/              # Internal packages
-│   ├── api/               # API client
-│   │   ├── client.go      # HTTP client
-│   │   ├── auth.go        # Authentication
-│   │   └── ...
 │   ├── config/            # Configuration
 │   │   └── config.go      # Viper configuration
 │   └── output/            # Output formatting
-│       └── formatter.go   # Table/JSON/YAML formatters
+│       └── output.go      # Table/JSON/YAML formatters
 ├── docs/                  # Documentation
 │   ├── api-reference.md   # API endpoint reference
 │   ├── roadmap.md         # Implementation roadmap
@@ -100,20 +102,20 @@ var projectsListCmd = &cobra.Command{
 }
 ```
 
-### API Layer (`internal/api/`)
+### API Layer (`pkg/api/`)
 
-HTTP client for DevCycle Management API:
+Public HTTP client for DevCycle Management API. This package can be imported by external projects:
 
 ```go
-// internal/api/client.go
-type Client struct {
-    baseURL    string
-    httpClient *http.Client
-    token      string
-}
+import "github.com/135yshr/devcycle-cli/pkg/api"
 
-func (c *Client) Get(path string) (*Response, error)
-func (c *Client) Post(path string, body interface{}) (*Response, error)
+// Create a client
+client := api.NewClient(
+    api.WithToken("your-access-token"),
+)
+
+// List projects
+projects, err := client.ListProjects(ctx)
 ```
 
 ### Configuration (`internal/config/`)
@@ -148,12 +150,12 @@ Supports multiple output formats:
    }
    ```
 
-2. Add API methods in `internal/api/`:
+2. Add API methods in `pkg/api/`:
 
    ```go
-   // internal/api/newresource.go
-   func (c *Client) ListNewResources() ([]NewResource, error)
-   func (c *Client) GetNewResource(id string) (*NewResource, error)
+   // pkg/api/newresource.go
+   func (c *Client) ListNewResources(ctx context.Context) ([]NewResource, error)
+   func (c *Client) GetNewResource(ctx context.Context, id string) (*NewResource, error)
    ```
 
 3. Write tests

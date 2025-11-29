@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/135yshr/devcycle-cli/internal/api"
 	"github.com/135yshr/devcycle-cli/internal/config"
+	"github.com/135yshr/devcycle-cli/pkg/api"
 )
 
 func loadToken() (*api.Token, error) {

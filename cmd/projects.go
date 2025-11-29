@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/135yshr/devcycle-cli/internal/api"
 	"github.com/135yshr/devcycle-cli/internal/output"
+	"github.com/135yshr/devcycle-cli/pkg/api"
 	"github.com/spf13/cobra"
 )
 
