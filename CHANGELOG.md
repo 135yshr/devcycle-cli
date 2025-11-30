@@ -16,6 +16,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add comprehensive GoDoc comments to pkg/api (#17)
 
+### 🔀 Other
+
+- Improve changelog readability with git-cliff format (#19)
+
 ## [0.2.0] - 2025-11-30
 
 ### ⛰️ Features
