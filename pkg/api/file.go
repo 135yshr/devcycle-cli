@@ -20,6 +20,8 @@ func readFile(path string) ([]byte, error) {
 	return data, nil
 }
 
+// RemoveFile deletes a file at the specified path.
+// Returns nil if the file does not exist.
 func RemoveFile(path string) error {
 	if err := os.Remove(path); err != nil && !os.IsNotExist(err) {
 		return fmt.Errorf("failed to remove file: %w", err)

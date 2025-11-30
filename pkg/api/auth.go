@@ -12,22 +12,29 @@ import (
 	"time"
 )
 
+// TokenResponse represents the raw OAuth2 token response from the DevCycle authentication endpoint.
 type TokenResponse struct {
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
 	ExpiresIn   int    `json:"expires_in"`
 }
 
+// Token represents an authenticated session with DevCycle.
+// It includes the access token, token type, and expiration time.
 type Token struct {
 	AccessToken string    `json:"access_token"`
 	TokenType   string    `json:"token_type"`
 	ExpiresAt   time.Time `json:"expires_at"`
 }
 
+// IsExpired reports whether the token has expired based on the current time.
 func (t *Token) IsExpired() bool {
 	return time.Now().After(t.ExpiresAt)
 }
 
+// Authenticate obtains an OAuth2 access token from DevCycle using client credentials.
+// The clientID and clientSecret can be obtained from the DevCycle dashboard.
+// Returns a Token containing the access token and expiration information.
 func Authenticate(ctx context.Context, clientID, clientSecret string) (*Token, error) {
 	return authenticateInternal(ctx, AuthURL, clientID, clientSecret)
 }
@@ -79,6 +86,8 @@ func authenticateInternal(ctx context.Context, authURL, clientID, clientSecret s
 	return token, nil
 }
 
+// SaveToken writes the token to a file at the specified path.
+// The token is stored as JSON with indented formatting.
 func SaveToken(token *Token, path string) error {
 	data, err := json.MarshalIndent(token, "", "  ")
 	if err != nil {
@@ -91,6 +100,8 @@ func SaveToken(token *Token, path string) error {
 	return writeFile(path, buf.Bytes())
 }
 
+// LoadToken reads a token from a file at the specified path.
+// Returns an error if the file does not exist or contains invalid JSON.
 func LoadToken(path string) (*Token, error) {
 	data, err := readFile(path)
 	if err != nil {

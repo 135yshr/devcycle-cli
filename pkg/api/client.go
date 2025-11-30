@@ -11,38 +11,53 @@ import (
 )
 
 const (
-	DefaultBaseURL   = "https://api.devcycle.com/v1"
+	// DefaultBaseURL is the base URL for DevCycle Management API v1.
+	DefaultBaseURL = "https://api.devcycle.com/v1"
+	// DefaultBaseURLV2 is the base URL for DevCycle Management API v2.
 	DefaultBaseURLV2 = "https://api.devcycle.com/v2"
-	AuthURL          = "https://auth.devcycle.com/oauth/token"
-	DefaultTimeout   = 30 * time.Second
+	// AuthURL is the OAuth2 token endpoint for DevCycle authentication.
+	AuthURL = "https://auth.devcycle.com/oauth/token"
+	// DefaultTimeout is the default HTTP client timeout for API requests.
+	DefaultTimeout = 30 * time.Second
 )
 
+// Client provides methods for interacting with the DevCycle Management API.
+// It handles authentication, request/response serialization, and error handling.
 type Client struct {
 	baseURL    string
 	httpClient *http.Client
 	token      string
 }
 
+// ClientOption is a function that configures a Client.
+// Use the With* functions to create ClientOptions.
 type ClientOption func(*Client)
 
+// WithBaseURL returns a ClientOption that sets a custom base URL for API requests.
+// Use this for testing or connecting to non-production environments.
 func WithBaseURL(url string) ClientOption {
 	return func(c *Client) {
 		c.baseURL = url
 	}
 }
 
+// WithTimeout returns a ClientOption that sets a custom timeout for HTTP requests.
 func WithTimeout(timeout time.Duration) ClientOption {
 	return func(c *Client) {
 		c.httpClient.Timeout = timeout
 	}
 }
 
+// WithToken returns a ClientOption that sets the authentication token.
+// The token should be obtained using the Authenticate function.
 func WithToken(token string) ClientOption {
 	return func(c *Client) {
 		c.token = token
 	}
 }
 
+// NewClient creates a new DevCycle API client with the given options.
+// By default, it uses DefaultBaseURL and DefaultTimeout.
 func NewClient(opts ...ClientOption) *Client {
 	c := &Client{
 		baseURL: DefaultBaseURL,
@@ -58,6 +73,8 @@ func NewClient(opts ...ClientOption) *Client {
 	return c
 }
 
+// SetToken updates the authentication token for the client.
+// This is useful for token refresh scenarios.
 func (c *Client) SetToken(token string) {
 	c.token = token
 }
@@ -112,22 +129,27 @@ func (c *Client) do(ctx context.Context, method, path string, body any, result a
 	return nil
 }
 
+// Get sends a GET request to the specified path and unmarshals the response into result.
 func (c *Client) Get(ctx context.Context, path string, result any) error {
 	return c.do(ctx, http.MethodGet, path, nil, result)
 }
 
+// Post sends a POST request with the given body and unmarshals the response into result.
 func (c *Client) Post(ctx context.Context, path string, body any, result any) error {
 	return c.do(ctx, http.MethodPost, path, body, result)
 }
 
+// Patch sends a PATCH request with the given body and unmarshals the response into result.
 func (c *Client) Patch(ctx context.Context, path string, body any, result any) error {
 	return c.do(ctx, http.MethodPatch, path, body, result)
 }
 
+// Put sends a PUT request with the given body and unmarshals the response into result.
 func (c *Client) Put(ctx context.Context, path string, body any, result any) error {
 	return c.do(ctx, http.MethodPut, path, body, result)
 }
 
+// Delete sends a DELETE request to the specified path.
 func (c *Client) Delete(ctx context.Context, path string) error {
 	return c.do(ctx, http.MethodDelete, path, nil, nil)
 }
@@ -183,12 +205,14 @@ func (c *Client) doV2(ctx context.Context, method, path string, body any, result
 	return nil
 }
 
-// PostV2 sends POST request to v2 API
+// PostV2 sends a POST request to the v2 API endpoint with the given body
+// and unmarshals the response into result.
 func (c *Client) PostV2(ctx context.Context, path string, body any, result any) error {
 	return c.doV2(ctx, http.MethodPost, path, body, result)
 }
 
-// PatchV2 sends PATCH request to v2 API
+// PatchV2 sends a PATCH request to the v2 API endpoint with the given body
+// and unmarshals the response into result.
 func (c *Client) PatchV2(ctx context.Context, path string, body any, result any) error {
 	return c.doV2(ctx, http.MethodPatch, path, body, result)
 }

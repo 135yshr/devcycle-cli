@@ -2,6 +2,9 @@ package api
 
 import "time"
 
+// Project represents a DevCycle project.
+// A project is the top-level organizational unit that contains
+// environments, features, and variables.
 type Project struct {
 	ID          string    `json:"_id"`
 	Key         string    `json:"key"`
@@ -11,6 +14,9 @@ type Project struct {
 	UpdatedAt   time.Time `json:"updatedAt"`
 }
 
+// Environment represents a DevCycle environment within a project.
+// Environments are used to separate feature configurations
+// (e.g., development, staging, production).
 type Environment struct {
 	ID          string    `json:"_id"`
 	Key         string    `json:"key"`
@@ -22,6 +28,8 @@ type Environment struct {
 	UpdatedAt   time.Time `json:"updatedAt"`
 }
 
+// Feature represents a DevCycle feature flag.
+// Features contain variables and can have different configurations per environment.
 type Feature struct {
 	ID          string    `json:"_id"`
 	Key         string    `json:"key"`
@@ -33,6 +41,9 @@ type Feature struct {
 	UpdatedAt   time.Time `json:"updatedAt"`
 }
 
+// Variable represents a DevCycle variable within a project.
+// Variables hold typed values (String, Boolean, Number, JSON) that can be
+// served to clients based on targeting rules.
 type Variable struct {
 	ID          string    `json:"_id"`
 	Key         string    `json:"key"`
@@ -146,7 +157,8 @@ type Distribution struct {
 	Percentage float64 `json:"percentage"` // 0.0 - 1.0
 }
 
-// FeatureV2 represents a feature response from v2 API
+// FeatureV2 represents a feature response from the v2 API.
+// It includes all feature configuration including variables, variations, and targeting.
 type FeatureV2 struct {
 	ID               string                        `json:"_id"`
 	Key              string                        `json:"key"`
