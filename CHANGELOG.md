@@ -5,12 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.2.1] - 2025-11-30
 
 ### ⛰️ Features
 
 - Add git-cliff for automated changelog generation (#18)
 - Implement environment management (#16)
+
+### 🐛 Bug Fixes
+
+- Add RELEASE_NOTES.md to .gitignore for clean GoReleaser builds (#21)
+- Allow dirty state in GoReleaser for git-cliff integration (#20)
 
 ### 📚 Documentation
 
@@ -19,6 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### 🔀 Other
 
 - Improve changelog readability with git-cliff format (#19)
+
+### 🔧 Build
+
+- Migrate release workflow to GitHub Releases trigger (#22)
 
 ## [0.2.0] - 2025-11-30
 
@@ -63,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initialize project structure and documentation (#1)
 
 <!-- Links -->
-[Unreleased]: https://github.com/135yshr/devcycle-cli/compare/v0.2.0...HEAD
+[0.2.1]: https://github.com/135yshr/devcycle-cli/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/135yshr/devcycle-cli/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/135yshr/devcycle-cli/releases/tag/v0.1.1
+
