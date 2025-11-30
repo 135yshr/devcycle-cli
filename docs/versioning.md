@@ -154,50 +154,6 @@ dvcx version
 make version
 ```
 
-## Release Checklist
+## Releasing
 
-1. Preview changelog: `make changelog-preview`
-2. Create and push tag:
-
-   ```bash
-   git tag vX.Y.Z
-   git push origin vX.Y.Z
-   ```
-
-3. GitHub Actions will automatically:
-   - Generate release notes using git-cliff
-   - Create GitHub Release with the notes
-   - Update `CHANGELOG.md` in main branch
-   - Build and publish binaries
-   - Update Homebrew formula
-
-## Changelog Generation
-
-This project uses [git-cliff](https://git-cliff.org/) to automatically generate changelogs from gitmoji commit messages.
-
-### Local Commands
-
-```bash
-# Generate full CHANGELOG.md
-make changelog
-
-# Preview unreleased changes
-make changelog-preview
-```
-
-### Supported Gitmoji Categories
-
-| Emoji | Category |
-|-------|----------|
-| ✨ | Added |
-| 🐛 🩹 | Fixed |
-| 📝 | Documentation |
-| ⚡ | Performance |
-| ♻️ 🎨 | Changed |
-| ✅ 🧪 | Testing |
-| 👷 🔧 📦 | Build |
-| 🔒 🔐 | Security |
-| ⬆️ ⬇️ 📌 | Dependencies |
-| 🗑️ | Deprecated |
-| 🔥 ➖ | Removed |
-| 💥 | Breaking Changes |
+For release instructions, see [RELEASING.md](../RELEASING.md).
