@@ -95,9 +95,29 @@ To obtain credentials:
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/v1/projects/{project}/overrides` | GET | List all overrides |
-| `/v1/projects/{project}/overrides` | POST | Create a new override |
-| `/v1/projects/{project}/overrides/{override}` | DELETE | Delete an override |
+| `/v1/projects/{project}/features/{feature}/overrides` | GET | List all overrides for a feature |
+| `/v1/projects/{project}/features/{feature}/overrides/current` | GET | Get current user's override for a feature |
+| `/v1/projects/{project}/features/{feature}/overrides/current` | PUT | Create/update override for current user |
+| `/v1/projects/{project}/features/{feature}/overrides/current` | DELETE | Delete override for current user |
+| `/v1/projects/{project}/overrides/current` | GET | List all overrides for current user in project |
+| `/v1/projects/{project}/overrides/current` | DELETE | Delete all overrides for current user in project |
+
+### Custom Properties
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/v1/projects/{project}/customProperties` | GET | List all custom properties |
+| `/v1/projects/{project}/customProperties` | POST | Create a new custom property |
+| `/v1/projects/{project}/customProperties/{key}` | GET | Get custom property details |
+| `/v1/projects/{project}/customProperties/{key}` | PATCH | Update a custom property |
+| `/v1/projects/{project}/customProperties/{key}` | DELETE | Delete a custom property |
+
+### User Profiles
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/v1/projects/{project}/userProfile/current` | GET | Get current user profile |
+| `/v1/projects/{project}/userProfile/current` | PUT | Create/update user profile |
 
 ### Webhooks
 
@@ -116,12 +136,25 @@ To obtain credentials:
 | `/v1/projects/{project}/audit` | GET | Get project audit logs |
 | `/v1/projects/{project}/features/{feature}/audit` | GET | Get feature audit logs |
 
-### Metrics / Analytics
+### Metrics
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/v1/projects/{project}/metrics` | GET | Get project metrics |
-| `/v1/projects/{project}/features/{feature}/metrics` | GET | Get feature metrics |
+| `/v1/projects/{project}/metrics` | GET | List all metrics |
+| `/v1/projects/{project}/metrics` | POST | Create a new metric |
+| `/v1/projects/{project}/metrics/{key}` | GET | Get metric details |
+| `/v1/projects/{project}/metrics/{key}` | PATCH | Update a metric |
+| `/v1/projects/{project}/metrics/{key}` | DELETE | Delete a metric |
+| `/v1/projects/{project}/metrics/{key}/results` | GET | Fetch metric results |
+| `/v1/projects/{project}/test-metric-results` | GET | Test metric results |
+
+### Metric Associations
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/v1/projects/{project}/metric-associations` | GET | List metric associations |
+| `/v1/projects/{project}/metric-associations` | POST | Associate metric with feature |
+| `/v1/projects/{project}/metric-associations` | DELETE | Delete metric association |
 
 ## Official Documentation
 
