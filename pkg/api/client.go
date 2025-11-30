@@ -124,6 +124,10 @@ func (c *Client) Patch(ctx context.Context, path string, body any, result any) e
 	return c.do(ctx, http.MethodPatch, path, body, result)
 }
 
+func (c *Client) Put(ctx context.Context, path string, body any, result any) error {
+	return c.do(ctx, http.MethodPut, path, body, result)
+}
+
 func (c *Client) Delete(ctx context.Context, path string) error {
 	return c.do(ctx, http.MethodDelete, path, nil, nil)
 }

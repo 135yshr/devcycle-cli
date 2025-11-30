@@ -9,7 +9,7 @@ This document outlines the implementation phases for `dvcx`.
 | Phase 1 | Foundation + Basic Operations (MVP) | Completed |
 | Phase 2 | Write Operations | Completed |
 | Phase 3 | Targeting & Variations | Completed |
-| Phase 4 | Audiences & Overrides | Planned |
+| Phase 4 | Audiences & Overrides | Completed |
 | Phase 5 | Operations & Monitoring | Planned |
 | Phase 6 | Environment Management | Planned |
 
@@ -95,23 +95,26 @@ This document outlines the implementation phases for `dvcx`.
 
 ### Audiences
 
-- [ ] `audiences list` - List all audiences
-- [ ] `audiences get` - Get audience details
-- [ ] `audiences create` - Create a new audience
-- [ ] `audiences update` - Update an audience
-- [ ] `audiences delete` - Delete an audience
+- [x] `audiences list` - List all audiences
+- [x] `audiences get` - Get audience details
+- [x] `audiences create` - Create a new audience
+- [x] `audiences update` - Update an audience
+- [x] `audiences delete` - Delete an audience
 
 ### Overrides (Self-Targeting)
 
-- [ ] `overrides list` - List all overrides
-- [ ] `overrides create` - Create a new override
-- [ ] `overrides delete` - Delete an override
+- [x] `overrides list` - List all overrides for a feature (requires --feature)
+- [x] `overrides get` - Get current user's override for a feature
+- [x] `overrides set` - Create/update override for current user
+- [x] `overrides delete` - Delete override for current user
+- [x] `overrides list-mine` - List all my overrides in project
+- [x] `overrides delete-mine` - Delete all my overrides in project
 
 ---
 
 ## Phase 5: Operations & Monitoring
 
-**Goal:** Implement operational features like audit logs, metrics, and webhooks.
+**Goal:** Implement operational features like audit logs, metrics, webhooks, and custom properties.
 
 ### Audit Logs
 
@@ -120,15 +123,28 @@ This document outlines the implementation phases for `dvcx`.
 
 ### Metrics
 
-- [ ] `metrics project` - Get project metrics
-- [ ] `metrics feature` - Get feature metrics
+- [ ] `metrics list` - List all metrics
+- [ ] `metrics get` - Get metric details
+- [ ] `metrics create` - Create a new metric
+- [ ] `metrics update` - Update a metric
+- [ ] `metrics delete` - Delete a metric
+- [ ] `metrics results` - Get metric results
 
 ### Webhooks
 
 - [ ] `webhooks list` - List all webhooks
+- [ ] `webhooks get` - Get webhook details
 - [ ] `webhooks create` - Create a new webhook
 - [ ] `webhooks update` - Update a webhook
 - [ ] `webhooks delete` - Delete a webhook
+
+### Custom Properties
+
+- [ ] `custom-properties list` - List all custom properties
+- [ ] `custom-properties get` - Get custom property details
+- [ ] `custom-properties create` - Create a new custom property
+- [ ] `custom-properties update` - Update a custom property
+- [ ] `custom-properties delete` - Delete a custom property
 
 ---
 
