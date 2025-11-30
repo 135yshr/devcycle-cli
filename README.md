@@ -99,6 +99,7 @@ See [docs/roadmap.md](docs/roadmap.md) for the complete list and [docs/usage.md]
 - [Roadmap](docs/roadmap.md) - Implementation phases and progress
 - [Contributing](docs/contributing.md) - How to contribute
 - [Development](docs/development.md) - Development setup and architecture
+- [Releasing](RELEASING.md) - Release process and changelog generation
 
 ## Development
 

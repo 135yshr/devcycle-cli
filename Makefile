@@ -1,4 +1,4 @@
-.PHONY: build install clean test lint fmt help
+.PHONY: build install clean test lint fmt changelog help
 
 BINARY_NAME=dvcx
 
@@ -61,6 +61,14 @@ version:
 	@echo "Version: $(VERSION)"
 	@echo "Commit:  $(COMMIT)"
 	@echo "Date:    $(DATE)"
+
+## changelog: Generate CHANGELOG.md using git-cliff
+changelog:
+	git cliff -o CHANGELOG.md
+
+## changelog-preview: Preview changelog for next release
+changelog-preview:
+	git cliff --unreleased --strip header
 
 ## help: Show this help message
 help:

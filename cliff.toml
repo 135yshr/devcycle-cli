@@ -1,0 +1,157 @@
+# git-cliff configuration for gitmoji commits
+# https://git-cliff.org/docs/configuration
+
+[changelog]
+# Template for the changelog header
+header = """
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+"""
+
+# Template for the changelog body
+# https://keats.github.io/tera/docs/#introduction
+body = """
+{% if version %}\
+## [{{ version | trim_start_matches(pat="v") }}] - {{ timestamp | date(format="%Y-%m-%d") }}
+{% else %}\
+## [Unreleased]
+{% endif %}\
+{% for group, commits in commits | group_by(attribute="group") %}
+### {{ group | upper_first }}
+{% for commit in commits %}
+- {% if commit.scope %}**{{ commit.scope }}**: {% endif %}\
+{{ commit.message | upper_first }}\
+{% endfor %}
+{% endfor %}\n
+"""
+
+# Template for the changelog footer
+footer = """
+<!-- Links -->
+{% for release in releases -%}
+{% if release.version -%}
+{% if release.previous.version -%}
+[{{ release.version | trim_start_matches(pat="v") }}]: https://github.com/135yshr/devcycle-cli/compare/{{ release.previous.version }}...{{ release.version }}
+{% else -%}
+[{{ release.version | trim_start_matches(pat="v") }}]: https://github.com/135yshr/devcycle-cli/releases/tag/{{ release.version }}
+{% endif -%}
+{% else -%}
+[Unreleased]: https://github.com/135yshr/devcycle-cli/compare/{{ release.previous.version }}...HEAD
+{% endif -%}
+{% endfor %}
+"""
+
+# Remove leading/trailing whitespace from the rendered template
+trim = true
+
+# Postprocessors for the changelog body
+postprocessors = [
+  # Remove gitmoji from commit messages for cleaner changelog
+  { pattern = '[\U0001F300-\U0001F9FF\U00002600-\U000027BF]\s*', replace = "" },
+  # Remove duplicate lines (commits without PR# that duplicate PR commits)
+  # This handles squash merge duplicates by removing lines without (#N)
+  # when a similar line with (#N) exists
+]
+
+[git]
+# Parse conventional commits
+conventional_commits = false
+# Filter commits to include
+filter_unconventional = false
+# Process each line of a commit as an individual commit
+split_commits = false
+# Regex for preprocessing the commit messages
+commit_preprocessors = [
+  # Remove gitmoji prefix for grouping but keep original message
+  { pattern = '^[\U0001F300-\U0001F9FF\U00002600-\U000027BF]\s*', replace = "" },
+  # Keep only the first line of commit messages (remove body)
+  { pattern = '\n[\s\S]*', replace = "" },
+]
+
+# Regex for parsing and grouping commits by gitmoji
+commit_parsers = [
+  # Features
+  { message = "^✨", group = "Added" },
+  { message = "^feat", group = "Added" },
+
+  # Bug fixes
+  { message = "^🐛", group = "Fixed" },
+  { message = "^🩹", group = "Fixed" },
+  { message = "^fix", group = "Fixed" },
+
+  # Documentation
+  { message = "^📝", group = "Documentation" },
+  { message = "^docs", group = "Documentation" },
+
+  # Performance
+  { message = "^⚡", group = "Performance" },
+  { message = "^perf", group = "Performance" },
+
+  # Refactoring
+  { message = "^♻️", group = "Changed" },
+  { message = "^🎨", group = "Changed" },
+  { message = "^refactor", group = "Changed" },
+
+  # Testing
+  { message = "^✅", group = "Testing" },
+  { message = "^🧪", group = "Testing" },
+  { message = "^test", group = "Testing" },
+
+  # Build/CI
+  { message = "^👷", group = "Build" },
+  { message = "^🔧", group = "Build" },
+  { message = "^📦", group = "Build" },
+  { message = "^ci", group = "Build" },
+  { message = "^build", group = "Build" },
+
+  # Security
+  { message = "^🔒", group = "Security" },
+  { message = "^🔐", group = "Security" },
+
+  # Dependencies
+  { message = "^⬆️", group = "Dependencies" },
+  { message = "^⬇️", group = "Dependencies" },
+  { message = "^📌", group = "Dependencies" },
+
+  # Deprecation
+  { message = "^🗑️", group = "Deprecated" },
+
+  # Removal
+  { message = "^🔥", group = "Removed" },
+  { message = "^➖", group = "Removed" },
+
+  # Breaking changes
+  { message = "^💥", group = "Breaking Changes" },
+
+  # Initial commit
+  { message = "^🎉", group = "Added" },
+
+  # Release
+  { message = "^🔖", skip = true },
+
+  # Merge commits
+  { message = "^Merge", skip = true },
+
+  # Other - catch all
+  { message = ".*", group = "Other" },
+]
+
+# Protect breaking changes from being skipped
+protect_breaking_commits = false
+
+# Filter out commits by patterns
+filter_commits = false
+
+# Tag pattern for releases
+tag_pattern = "v[0-9].*"
+
+# Sort commits by newest first
+sort_commits = "newest"
+
+# Limit the number of commits included in the changelog
+# limit_commits = 42

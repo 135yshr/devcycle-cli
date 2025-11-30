@@ -5,6 +5,7 @@
   },
   // Files/directories to ignore
   "ignores": [
-    "website/**"
+    "website/**",
+    "CHANGELOG.md"
   ]
 }

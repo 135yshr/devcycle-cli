@@ -154,11 +154,6 @@ dvcx version
 make version
 ```
 
-## Release Checklist
+## Releasing
 
-1. Update `CHANGELOG.md` with release notes
-2. Commit changes: `git commit -m "📝 docs: Update changelog for vX.Y.Z"`
-3. Create tag: `git tag vX.Y.Z`
-4. Push tag: `git push origin vX.Y.Z`
-5. Verify GitHub Actions release workflow
-6. Verify Homebrew formula update
+For release instructions, see [RELEASING.md](../RELEASING.md).

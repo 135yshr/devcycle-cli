@@ -1,2 +1,5 @@
 # Hugo website - uses different markdown conventions
 website/
+
+# CHANGELOG - uses Keep a Changelog format with repeated headings
+CHANGELOG.md
