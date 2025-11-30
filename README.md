@@ -60,7 +60,7 @@ go install github.com/135yshr/devcycle-cli@latest
 
 ## Commands
 
-> Note: This project is under active development. See [Roadmap](docs/roadmap.md) for implementation status.
+> All planned features have been implemented. See [Roadmap](docs/roadmap.md) for details.
 
 ### Core Commands
 
@@ -70,7 +70,7 @@ go install github.com/135yshr/devcycle-cli@latest
 | `projects list/get/create/update` | Project management | ✅ Completed |
 | `features list/get/create/update/delete` | Feature flags | ✅ Completed |
 | `variables list/get/create/update/delete` | Variables | ✅ Completed |
-| `environments list/get` | Environments | ✅ Completed |
+| `environments list/get/create/update/delete` | Environments | ✅ Completed |
 | `targeting get/update/enable/disable` | Feature targeting | ✅ Completed |
 | `variations list/get/create/update/delete` | Feature variations | ✅ Completed |
 
@@ -89,6 +89,12 @@ go install github.com/135yshr/devcycle-cli@latest
 | `metrics list/get/create/update/delete/results` | Metrics management | ✅ Completed |
 | `webhooks list/get/create/update/delete` | Webhook management | ✅ Completed |
 | `custom-properties list/get/create/update/delete` | Custom properties | ✅ Completed |
+
+### Environment Management (Phase 6)
+
+| Command | Description | Status |
+|---------|-------------|--------|
+| `keys list/rotate` | SDK key management | ✅ Completed |
 
 See [docs/roadmap.md](docs/roadmap.md) for the complete list and [docs/usage.md](docs/usage.md) for detailed usage examples.
 

@@ -33,6 +33,8 @@ dvcxの全コマンドリファレンス。
 |---------|------|
 | [projects list]({{< relref "/docs/commands/projects#list" >}}) | 全プロジェクトを一覧表示 |
 | [projects get]({{< relref "/docs/commands/projects#get" >}}) | プロジェクトの詳細を取得 |
+| [projects create]({{< relref "/docs/commands/projects#create" >}}) | 新しいプロジェクトを作成 |
+| [projects update]({{< relref "/docs/commands/projects#update" >}}) | プロジェクトを更新 |
 
 ### フィーチャー
 
@@ -40,6 +42,9 @@ dvcxの全コマンドリファレンス。
 |---------|------|
 | [features list]({{< relref "/docs/commands/features#list" >}}) | プロジェクト内のフィーチャーを一覧表示 |
 | [features get]({{< relref "/docs/commands/features#get" >}}) | フィーチャーの詳細を取得 |
+| [features create]({{< relref "/docs/commands/features#create" >}}) | 新しいフィーチャーを作成 |
+| [features update]({{< relref "/docs/commands/features#update" >}}) | フィーチャーを更新 |
+| [features delete]({{< relref "/docs/commands/features#delete" >}}) | フィーチャーを削除 |
 
 ### 変数
 
@@ -47,6 +52,9 @@ dvcxの全コマンドリファレンス。
 |---------|------|
 | [variables list]({{< relref "/docs/commands/variables#list" >}}) | プロジェクト内の変数を一覧表示 |
 | [variables get]({{< relref "/docs/commands/variables#get" >}}) | 変数の詳細を取得 |
+| [variables create]({{< relref "/docs/commands/variables#create" >}}) | 新しい変数を作成 |
+| [variables update]({{< relref "/docs/commands/variables#update" >}}) | 変数を更新 |
+| [variables delete]({{< relref "/docs/commands/variables#delete" >}}) | 変数を削除 |
 
 ### 環境
 
@@ -54,6 +62,28 @@ dvcxの全コマンドリファレンス。
 |---------|------|
 | [environments list]({{< relref "/docs/commands/environments#list" >}}) | プロジェクト内の環境を一覧表示 |
 | [environments get]({{< relref "/docs/commands/environments#get" >}}) | 環境の詳細を取得 |
+| [environments create]({{< relref "/docs/commands/environments#create" >}}) | 新しい環境を作成 |
+| [environments update]({{< relref "/docs/commands/environments#update" >}}) | 環境を更新 |
+| [environments delete]({{< relref "/docs/commands/environments#delete" >}}) | 環境を削除 |
+
+### ターゲティング
+
+| コマンド | 説明 |
+|---------|------|
+| [targeting get]({{< relref "/docs/commands/targeting#get" >}}) | ターゲティング設定を取得 |
+| [targeting update]({{< relref "/docs/commands/targeting#update" >}}) | ターゲティングルールを更新 |
+| [targeting enable]({{< relref "/docs/commands/targeting#enable" >}}) | 環境でフィーチャーを有効化 |
+| [targeting disable]({{< relref "/docs/commands/targeting#disable" >}}) | 環境でフィーチャーを無効化 |
+
+### バリエーション
+
+| コマンド | 説明 |
+|---------|------|
+| [variations list]({{< relref "/docs/commands/variations#list" >}}) | フィーチャーのバリエーションを一覧表示 |
+| [variations get]({{< relref "/docs/commands/variations#get" >}}) | バリエーションの詳細を取得 |
+| [variations create]({{< relref "/docs/commands/variations#create" >}}) | 新しいバリエーションを作成 |
+| [variations update]({{< relref "/docs/commands/variations#update" >}}) | バリエーションを更新 |
+| [variations delete]({{< relref "/docs/commands/variations#delete" >}}) | バリエーションを削除 |
 
 ### オーディエンス
 
@@ -113,6 +143,13 @@ dvcxの全コマンドリファレンス。
 | [custom-properties create]({{< relref "/docs/commands/custom-properties#create" >}}) | 新しいカスタムプロパティを作成 |
 | [custom-properties update]({{< relref "/docs/commands/custom-properties#update" >}}) | 既存のカスタムプロパティを更新 |
 | [custom-properties delete]({{< relref "/docs/commands/custom-properties#delete" >}}) | カスタムプロパティを削除 |
+
+### SDK キー
+
+| コマンド | 説明 |
+|---------|------|
+| [keys list]({{< relref "/docs/commands/keys#list" >}}) | 環境の SDK キーを一覧表示 |
+| [keys rotate]({{< relref "/docs/commands/keys#rotate" >}}) | SDK キーをローテーション |
 
 ### その他
 
