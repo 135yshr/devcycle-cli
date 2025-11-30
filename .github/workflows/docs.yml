@@ -1,16 +1,15 @@
-# Workflow for building and deploying Hugo documentation to GitHub Pages
-name: Deploy Documentation
+# Workflow for building and deploying Hugo documentation to GitHub Pages (manual only)
+# Note: Automatic deployment is handled by release.yml after binary release
+name: Deploy Documentation (Manual)
 
 on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["main"]
-    paths:
-      - "website/**"
-      - ".github/workflows/docs.yml"
-
-  # Allows you to run this workflow manually from the Actions tab
+  # Manual trigger only - use this for emergency deployments or testing
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to display (e.g., v0.1.0)'
+        required: false
+        default: 'dev'
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -69,6 +68,7 @@ jobs:
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
+          HUGO_PARAMS_VERSION: ${{ inputs.version }}
           TZ: Asia/Tokyo
         run: |
           cd website
