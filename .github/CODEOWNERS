@@ -11,6 +11,9 @@
 *.md @135yshr
 docs/ @135yshr
 
+# Auto-generated files (no code owner review required)
+CHANGELOG.md
+
 # Configuration files
 *.yaml @135yshr
 *.yml @135yshr
