@@ -21,13 +21,24 @@ body = """
 {% else %}\
 ## [Unreleased]
 {% endif %}\
-{% for group, commits in commits | group_by(attribute="group") %}
-### {{ group | upper_first }}
-{% for commit in commits %}
-- {% if commit.scope %}**{{ commit.scope }}**: {% endif %}\
-{{ commit.message | upper_first }}\
+{% for group, commits in commits | group_by(attribute="group") %}\
+{% set_global has_entries = false %}\
+{% for commit in commits %}\
+{% if commit.message is containing("(#") %}\
+{% set_global has_entries = true %}\
+{% endif %}\
+{% endfor %}\
+{% if has_entries %}
+
+### {{ group }}
+{% for commit in commits %}\
+{% if commit.message is containing("(#") %}
+- {% if commit.scope %}*({{ commit.scope }})* {% endif %}{{ commit.message | upper_first }}\
+{% endif %}\
 {% endfor %}
-{% endfor %}\n
+{% endif %}\
+{% endfor %}
+
 """
 
 # Template for the changelog footer
@@ -51,11 +62,18 @@ trim = true
 
 # Postprocessors for the changelog body
 postprocessors = [
-  # Remove gitmoji from commit messages for cleaner changelog
-  { pattern = '[\U0001F300-\U0001F9FF\U00002600-\U000027BF]\s*', replace = "" },
-  # Remove duplicate lines (commits without PR# that duplicate PR commits)
-  # This handles squash merge duplicates by removing lines without (#N)
-  # when a similar line with (#N) exists
+  # Remove gitmoji from commit messages (only in list items, not headers)
+  { pattern = '^- [\U0001F300-\U0001F9FF\U00002600-\U000027BF]\s*', replace = "- " },
+  # Remove ⬆️ emoji specifically (common in deps commits)
+  { pattern = '⬆️\s*', replace = "" },
+  # Remove prefix words (Feat:, Fix:, Docs:, etc.) from messages
+  { pattern = '(?i)(Feat|Fix|Docs|Ci|Test|Refactor|Perf|Build|Chore|Style):\s*', replace = "" },
+  # Remove "Phase N: " or "Phase N " prefix from messages
+  { pattern = 'Phase \d+:?\s+', replace = "" },
+  # Remove "chore: " and "deps: " prefixes
+  { pattern = '(?i)(chore|deps):\s*', replace = "" },
+  # Reduce multiple consecutive empty lines to single empty line
+  { pattern = '\n{3,}', replace = "\n\n" },
 ]
 
 [git]
@@ -76,60 +94,60 @@ commit_preprocessors = [
 # Regex for parsing and grouping commits by gitmoji
 commit_parsers = [
   # Features
-  { message = "^✨", group = "Added" },
-  { message = "^feat", group = "Added" },
+  { message = "^✨", group = "⛰️ Features" },
+  { message = "^feat", group = "⛰️ Features" },
 
   # Bug fixes
-  { message = "^🐛", group = "Fixed" },
-  { message = "^🩹", group = "Fixed" },
-  { message = "^fix", group = "Fixed" },
+  { message = "^🐛", group = "🐛 Bug Fixes" },
+  { message = "^🩹", group = "🐛 Bug Fixes" },
+  { message = "^fix", group = "🐛 Bug Fixes" },
 
   # Documentation
-  { message = "^📝", group = "Documentation" },
-  { message = "^docs", group = "Documentation" },
+  { message = "^📝", group = "📚 Documentation" },
+  { message = "^docs", group = "📚 Documentation" },
 
   # Performance
-  { message = "^⚡", group = "Performance" },
-  { message = "^perf", group = "Performance" },
+  { message = "^⚡", group = "⚡ Performance" },
+  { message = "^perf", group = "⚡ Performance" },
 
   # Refactoring
-  { message = "^♻️", group = "Changed" },
-  { message = "^🎨", group = "Changed" },
-  { message = "^refactor", group = "Changed" },
+  { message = "^♻️", group = "♻️ Refactoring" },
+  { message = "^🎨", group = "♻️ Refactoring" },
+  { message = "^refactor", group = "♻️ Refactoring" },
 
   # Testing
-  { message = "^✅", group = "Testing" },
-  { message = "^🧪", group = "Testing" },
-  { message = "^test", group = "Testing" },
+  { message = "^✅", group = "🧪 Testing" },
+  { message = "^🧪", group = "🧪 Testing" },
+  { message = "^test", group = "🧪 Testing" },
 
   # Build/CI
-  { message = "^👷", group = "Build" },
-  { message = "^🔧", group = "Build" },
-  { message = "^📦", group = "Build" },
-  { message = "^ci", group = "Build" },
-  { message = "^build", group = "Build" },
+  { message = "^👷", group = "🔧 Build" },
+  { message = "^🔧", group = "🔧 Build" },
+  { message = "^📦", group = "🔧 Build" },
+  { message = "^ci", group = "🔧 Build" },
+  { message = "^build", group = "🔧 Build" },
 
   # Security
-  { message = "^🔒", group = "Security" },
-  { message = "^🔐", group = "Security" },
+  { message = "^🔒", group = "🔒 Security" },
+  { message = "^🔐", group = "🔒 Security" },
 
   # Dependencies
-  { message = "^⬆️", group = "Dependencies" },
-  { message = "^⬇️", group = "Dependencies" },
-  { message = "^📌", group = "Dependencies" },
+  { message = "^⬆️", group = "📦 Dependencies" },
+  { message = "^⬇️", group = "📦 Dependencies" },
+  { message = "^📌", group = "📦 Dependencies" },
 
   # Deprecation
-  { message = "^🗑️", group = "Deprecated" },
+  { message = "^🗑️", group = "🗑️ Deprecated" },
 
   # Removal
-  { message = "^🔥", group = "Removed" },
-  { message = "^➖", group = "Removed" },
+  { message = "^🔥", group = "🔥 Removed" },
+  { message = "^➖", group = "🔥 Removed" },
 
   # Breaking changes
-  { message = "^💥", group = "Breaking Changes" },
+  { message = "^💥", group = "💥 Breaking Changes" },
 
   # Initial commit
-  { message = "^🎉", group = "Added" },
+  { message = "^🎉", group = "⛰️ Features" },
 
   # Release
   { message = "^🔖", skip = true },
@@ -138,14 +156,14 @@ commit_parsers = [
   { message = "^Merge", skip = true },
 
   # Other - catch all
-  { message = ".*", group = "Other" },
+  { message = ".*", group = "🔀 Other" },
 ]
 
 # Protect breaking changes from being skipped
 protect_breaking_commits = false
 
 # Filter out commits by patterns
-filter_commits = false
+filter_commits = true
 
 # Tag pattern for releases
 tag_pattern = "v[0-9].*"
