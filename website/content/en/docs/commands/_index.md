@@ -33,6 +33,8 @@ These flags are available for all commands:
 |---------|-------------|
 | [projects list]({{< relref "/docs/commands/projects#list" >}}) | List all projects |
 | [projects get]({{< relref "/docs/commands/projects#get" >}}) | Get project details |
+| [projects create]({{< relref "/docs/commands/projects#create" >}}) | Create a new project |
+| [projects update]({{< relref "/docs/commands/projects#update" >}}) | Update a project |
 
 ### Features
 
@@ -50,6 +52,9 @@ These flags are available for all commands:
 |---------|-------------|
 | [variables list]({{< relref "/docs/commands/variables#list" >}}) | List variables in a project |
 | [variables get]({{< relref "/docs/commands/variables#get" >}}) | Get variable details |
+| [variables create]({{< relref "/docs/commands/variables#create" >}}) | Create a new variable |
+| [variables update]({{< relref "/docs/commands/variables#update" >}}) | Update a variable |
+| [variables delete]({{< relref "/docs/commands/variables#delete" >}}) | Delete a variable |
 
 ### Environments
 
@@ -57,6 +62,28 @@ These flags are available for all commands:
 |---------|-------------|
 | [environments list]({{< relref "/docs/commands/environments#list" >}}) | List environments in a project |
 | [environments get]({{< relref "/docs/commands/environments#get" >}}) | Get environment details |
+| [environments create]({{< relref "/docs/commands/environments#create" >}}) | Create a new environment |
+| [environments update]({{< relref "/docs/commands/environments#update" >}}) | Update an environment |
+| [environments delete]({{< relref "/docs/commands/environments#delete" >}}) | Delete an environment |
+
+### Targeting
+
+| Command | Description |
+|---------|-------------|
+| [targeting get]({{< relref "/docs/commands/targeting#get" >}}) | Get targeting configuration |
+| [targeting update]({{< relref "/docs/commands/targeting#update" >}}) | Update targeting rules |
+| [targeting enable]({{< relref "/docs/commands/targeting#enable" >}}) | Enable a feature for an environment |
+| [targeting disable]({{< relref "/docs/commands/targeting#disable" >}}) | Disable a feature for an environment |
+
+### Variations
+
+| Command | Description |
+|---------|-------------|
+| [variations list]({{< relref "/docs/commands/variations#list" >}}) | List variations for a feature |
+| [variations get]({{< relref "/docs/commands/variations#get" >}}) | Get variation details |
+| [variations create]({{< relref "/docs/commands/variations#create" >}}) | Create a new variation |
+| [variations update]({{< relref "/docs/commands/variations#update" >}}) | Update a variation |
+| [variations delete]({{< relref "/docs/commands/variations#delete" >}}) | Delete a variation |
 
 ### Audiences
 
@@ -116,6 +143,13 @@ These flags are available for all commands:
 | [custom-properties create]({{< relref "/docs/commands/custom-properties#create" >}}) | Create a new custom property |
 | [custom-properties update]({{< relref "/docs/commands/custom-properties#update" >}}) | Update a custom property |
 | [custom-properties delete]({{< relref "/docs/commands/custom-properties#delete" >}}) | Delete a custom property |
+
+### SDK Keys
+
+| Command | Description |
+|---------|-------------|
+| [keys list]({{< relref "/docs/commands/keys#list" >}}) | List SDK keys for an environment |
+| [keys rotate]({{< relref "/docs/commands/keys#rotate" >}}) | Rotate an SDK key |
 
 ### Other
 
