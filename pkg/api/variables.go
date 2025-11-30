@@ -3,12 +3,13 @@ package api
 import (
 	"context"
 	"fmt"
+	"net/url"
 )
 
 // Variables returns all variables for a project.
 func (c *Client) Variables(ctx context.Context, projectKey string) ([]Variable, error) {
 	var variables []Variable
-	path := fmt.Sprintf("/projects/%s/variables", projectKey)
+	path := fmt.Sprintf("/projects/%s/variables", url.PathEscape(projectKey))
 	if err := c.Get(ctx, path, &variables); err != nil {
 		return nil, fmt.Errorf("failed to list variables: %w", err)
 	}
@@ -18,7 +19,7 @@ func (c *Client) Variables(ctx context.Context, projectKey string) ([]Variable, 
 // Variable returns a specific variable by its key.
 func (c *Client) Variable(ctx context.Context, projectKey, variableKey string) (*Variable, error) {
 	var variable Variable
-	path := fmt.Sprintf("/projects/%s/variables/%s", projectKey, variableKey)
+	path := fmt.Sprintf("/projects/%s/variables/%s", url.PathEscape(projectKey), url.PathEscape(variableKey))
 	if err := c.Get(ctx, path, &variable); err != nil {
 		return nil, fmt.Errorf("failed to get variable: %w", err)
 	}
@@ -43,7 +44,7 @@ type UpdateVariableRequest struct {
 // CreateVariable creates a new variable in a project.
 func (c *Client) CreateVariable(ctx context.Context, projectKey string, req *CreateVariableRequest) (*Variable, error) {
 	var variable Variable
-	path := fmt.Sprintf("/projects/%s/variables", projectKey)
+	path := fmt.Sprintf("/projects/%s/variables", url.PathEscape(projectKey))
 	if err := c.Post(ctx, path, req, &variable); err != nil {
 		return nil, fmt.Errorf("failed to create variable: %w", err)
 	}
@@ -53,7 +54,7 @@ func (c *Client) CreateVariable(ctx context.Context, projectKey string, req *Cre
 // UpdateVariable updates an existing variable's properties.
 func (c *Client) UpdateVariable(ctx context.Context, projectKey, variableKey string, req *UpdateVariableRequest) (*Variable, error) {
 	var variable Variable
-	path := fmt.Sprintf("/projects/%s/variables/%s", projectKey, variableKey)
+	path := fmt.Sprintf("/projects/%s/variables/%s", url.PathEscape(projectKey), url.PathEscape(variableKey))
 	if err := c.Patch(ctx, path, req, &variable); err != nil {
 		return nil, fmt.Errorf("failed to update variable: %w", err)
 	}
@@ -63,7 +64,7 @@ func (c *Client) UpdateVariable(ctx context.Context, projectKey, variableKey str
 // DeleteVariable removes a variable from a project.
 // Warning: This action cannot be undone.
 func (c *Client) DeleteVariable(ctx context.Context, projectKey, variableKey string) error {
-	path := fmt.Sprintf("/projects/%s/variables/%s", projectKey, variableKey)
+	path := fmt.Sprintf("/projects/%s/variables/%s", url.PathEscape(projectKey), url.PathEscape(variableKey))
 	if err := c.Delete(ctx, path); err != nil {
 		return fmt.Errorf("failed to delete variable: %w", err)
 	}

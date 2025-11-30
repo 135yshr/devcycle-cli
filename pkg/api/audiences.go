@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -35,7 +36,7 @@ type UpdateAudienceRequest struct {
 // Audiences returns all audiences for a project
 func (c *Client) Audiences(ctx context.Context, projectKey string) ([]AudienceDefinition, error) {
 	var audiences []AudienceDefinition
-	path := fmt.Sprintf("/projects/%s/audiences", projectKey)
+	path := fmt.Sprintf("/projects/%s/audiences", url.PathEscape(projectKey))
 	if err := c.Get(ctx, path, &audiences); err != nil {
 		return nil, fmt.Errorf("failed to list audiences: %w", err)
 	}
@@ -45,7 +46,7 @@ func (c *Client) Audiences(ctx context.Context, projectKey string) ([]AudienceDe
 // Audience returns a specific audience
 func (c *Client) Audience(ctx context.Context, projectKey, audienceKey string) (*AudienceDefinition, error) {
 	var audience AudienceDefinition
-	path := fmt.Sprintf("/projects/%s/audiences/%s", projectKey, audienceKey)
+	path := fmt.Sprintf("/projects/%s/audiences/%s", url.PathEscape(projectKey), url.PathEscape(audienceKey))
 	if err := c.Get(ctx, path, &audience); err != nil {
 		return nil, fmt.Errorf("failed to get audience: %w", err)
 	}
@@ -55,7 +56,7 @@ func (c *Client) Audience(ctx context.Context, projectKey, audienceKey string) (
 // CreateAudience creates a new audience
 func (c *Client) CreateAudience(ctx context.Context, projectKey string, req *CreateAudienceRequest) (*AudienceDefinition, error) {
 	var audience AudienceDefinition
-	path := fmt.Sprintf("/projects/%s/audiences", projectKey)
+	path := fmt.Sprintf("/projects/%s/audiences", url.PathEscape(projectKey))
 	if err := c.Post(ctx, path, req, &audience); err != nil {
 		return nil, fmt.Errorf("failed to create audience: %w", err)
 	}
@@ -65,7 +66,7 @@ func (c *Client) CreateAudience(ctx context.Context, projectKey string, req *Cre
 // UpdateAudience updates an existing audience
 func (c *Client) UpdateAudience(ctx context.Context, projectKey, audienceKey string, req *UpdateAudienceRequest) (*AudienceDefinition, error) {
 	var audience AudienceDefinition
-	path := fmt.Sprintf("/projects/%s/audiences/%s", projectKey, audienceKey)
+	path := fmt.Sprintf("/projects/%s/audiences/%s", url.PathEscape(projectKey), url.PathEscape(audienceKey))
 	if err := c.Patch(ctx, path, req, &audience); err != nil {
 		return nil, fmt.Errorf("failed to update audience: %w", err)
 	}
@@ -74,7 +75,7 @@ func (c *Client) UpdateAudience(ctx context.Context, projectKey, audienceKey str
 
 // DeleteAudience deletes an audience
 func (c *Client) DeleteAudience(ctx context.Context, projectKey, audienceKey string) error {
-	path := fmt.Sprintf("/projects/%s/audiences/%s", projectKey, audienceKey)
+	path := fmt.Sprintf("/projects/%s/audiences/%s", url.PathEscape(projectKey), url.PathEscape(audienceKey))
 	if err := c.Delete(ctx, path); err != nil {
 		return fmt.Errorf("failed to delete audience: %w", err)
 	}

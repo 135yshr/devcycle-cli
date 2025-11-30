@@ -13,6 +13,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// maxConfigFileSize is the maximum file size allowed for JSON configuration files (10MB)
+const maxConfigFileSize = 10 * 1024 * 1024
+
 var targetingCmd = &cobra.Command{
 	Use:   "targeting",
 	Short: "Manage feature targeting configurations",
@@ -149,12 +152,25 @@ func runTargetingUpdate(cmd *cobra.Command, args []string) error {
 	var err error
 
 	if targetingFromFile == "-" {
-		data, err = io.ReadAll(os.Stdin)
+		data, err = io.ReadAll(io.LimitReader(os.Stdin, maxConfigFileSize))
 		if err != nil {
 			return fmt.Errorf("failed to read from stdin: %w", err)
 		}
 	} else {
-		data, err = os.ReadFile(targetingFromFile)
+		file, err := os.Open(targetingFromFile)
+		if err != nil {
+			return fmt.Errorf("failed to open file %s: %w", targetingFromFile, err)
+		}
+		defer file.Close()
+
+		info, err := file.Stat()
+		if err != nil {
+			return fmt.Errorf("failed to stat file %s: %w", targetingFromFile, err)
+		}
+		if info.Size() > maxConfigFileSize {
+			return fmt.Errorf("file %s exceeds maximum allowed size (%d bytes)", targetingFromFile, maxConfigFileSize)
+		}
+		data, err = io.ReadAll(file)
 		if err != nil {
 			return fmt.Errorf("failed to read file %s: %w", targetingFromFile, err)
 		}

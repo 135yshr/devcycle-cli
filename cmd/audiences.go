@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"time"
 
@@ -11,6 +12,9 @@ import (
 	"github.com/135yshr/devcycle-cli/pkg/api"
 	"github.com/spf13/cobra"
 )
+
+// maxAudienceFileSize is the maximum file size allowed for JSON audience files (10MB)
+const maxAudienceFileSize = 10 * 1024 * 1024
 
 var audiencesCmd = &cobra.Command{
 	Use:   "audiences",
@@ -193,7 +197,20 @@ func runAudiencesCreate(cmd *cobra.Command, args []string) error {
 
 	// Load from file if specified
 	if audienceFromFile != "" {
-		data, err := os.ReadFile(audienceFromFile)
+		file, err := os.Open(audienceFromFile)
+		if err != nil {
+			return fmt.Errorf("failed to open file: %w", err)
+		}
+		defer file.Close()
+
+		info, err := file.Stat()
+		if err != nil {
+			return fmt.Errorf("failed to stat file: %w", err)
+		}
+		if info.Size() > maxAudienceFileSize {
+			return fmt.Errorf("file %s exceeds maximum allowed size (%d bytes)", audienceFromFile, maxAudienceFileSize)
+		}
+		data, err := io.ReadAll(file)
 		if err != nil {
 			return fmt.Errorf("failed to read file: %w", err)
 		}
@@ -262,7 +279,20 @@ func runAudiencesUpdate(cmd *cobra.Command, args []string) error {
 
 	// Load from file if specified
 	if audienceFromFile != "" {
-		data, err := os.ReadFile(audienceFromFile)
+		file, err := os.Open(audienceFromFile)
+		if err != nil {
+			return fmt.Errorf("failed to open file: %w", err)
+		}
+		defer file.Close()
+
+		info, err := file.Stat()
+		if err != nil {
+			return fmt.Errorf("failed to stat file: %w", err)
+		}
+		if info.Size() > maxAudienceFileSize {
+			return fmt.Errorf("file %s exceeds maximum allowed size (%d bytes)", audienceFromFile, maxAudienceFileSize)
+		}
+		data, err := io.ReadAll(file)
 		if err != nil {
 			return fmt.Errorf("failed to read file: %w", err)
 		}
