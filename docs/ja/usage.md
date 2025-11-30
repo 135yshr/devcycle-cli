@@ -18,6 +18,7 @@
 - [メトリクス](#メトリクス)
 - [Webhook](#webhook)
 - [カスタムプロパティ](#カスタムプロパティ)
+- [SDKキー](#sdkキー)
 
 ## グローバルフラグ
 
@@ -191,6 +192,40 @@ dvcx environments list -p my-project
 ```bash
 # 環境の詳細を取得
 dvcx environments get development -p my-project
+```
+
+### 環境作成
+
+```bash
+# 新しい環境を作成
+dvcx environments create -p my-project \
+  --key staging \
+  --name "Staging" \
+  --type staging \
+  --color "#ffff00" \
+  --description "ステージング環境"
+```
+
+### 環境更新
+
+```bash
+# 環境名を更新
+dvcx environments update staging -p my-project \
+  --name "ステージング環境" \
+  --description "更新された説明"
+
+# 環境の色を更新
+dvcx environments update staging -p my-project --color "#00ffff"
+```
+
+### 環境削除
+
+```bash
+# 環境を削除（確認あり）
+dvcx environments delete staging -p my-project
+
+# 確認なしで削除
+dvcx environments delete staging -p my-project --force
 ```
 
 ## ターゲティング
@@ -607,3 +642,29 @@ export DVCX_PROJECT=default-project-key
 ```
 
 環境変数は設定ファイルの値より優先されます。
+
+## SDKキー
+
+SDKキーはDevCycleとアプリケーションの認証に使用されます。
+
+### SDKキー一覧
+
+```bash
+# 環境のSDKキーを一覧表示
+dvcx keys list -p my-project -e development
+```
+
+### SDKキーのローテーション
+
+```bash
+# クライアントSDKキーをローテーション（確認あり）
+dvcx keys rotate -p my-project -e development --type client
+
+# サーバーSDKキーを確認なしでローテーション
+dvcx keys rotate -p my-project -e development --type server --force
+
+# モバイルSDKキーをローテーション
+dvcx keys rotate -p my-project -e production --type mobile
+```
+
+**警告**: キーをローテーションすると既存のキーが無効になります。新しいキーでアプリケーションを更新してください。

@@ -70,7 +70,7 @@ go install github.com/135yshr/devcycle-cli@latest
 | `projects list/get/create/update` | プロジェクト管理 | ✅ 完了 |
 | `features list/get/create/update/delete` | フィーチャーフラグ | ✅ 完了 |
 | `variables list/get/create/update/delete` | 変数 | ✅ 完了 |
-| `environments list/get` | 環境 | ✅ 完了 |
+| `environments list/get/create/update/delete` | 環境 | ✅ 完了 |
 | `targeting get/update/enable/disable` | フィーチャーターゲティング | ✅ 完了 |
 | `variations list/get/create/update/delete` | フィーチャーバリエーション | ✅ 完了 |
 
@@ -89,6 +89,12 @@ go install github.com/135yshr/devcycle-cli@latest
 | `metrics list/get/create/update/delete/results` | メトリクス管理 | ✅ 完了 |
 | `webhooks list/get/create/update/delete` | Webhook 管理 | ✅ 完了 |
 | `custom-properties list/get/create/update/delete` | カスタムプロパティ | ✅ 完了 |
+
+### 環境管理 (Phase 6)
+
+| コマンド | 説明 | ステータス |
+|---------|------|----------|
+| `keys list/rotate` | SDK キー管理 | ✅ 完了 |
 
 詳細な使用例は [使い方ガイド](usage.md) を参照してください。
 

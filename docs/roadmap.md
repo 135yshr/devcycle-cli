@@ -11,7 +11,7 @@ This document outlines the implementation phases for `dvcx`.
 | Phase 3 | Targeting & Variations | Completed |
 | Phase 4 | Audiences & Overrides | Completed |
 | Phase 5 | Operations & Monitoring | Completed |
-| Phase 6 | Environment Management | Planned |
+| Phase 6 | Environment Management | Completed |
 
 ---
 
@@ -154,14 +154,14 @@ This document outlines the implementation phases for `dvcx`.
 
 ### Environments
 
-- [ ] `environments create` - Create a new environment
-- [ ] `environments update` - Update an environment
-- [ ] `environments delete` - Delete an environment
+- [x] `environments create` - Create a new environment
+- [x] `environments update` - Update an environment
+- [x] `environments delete` - Delete an environment
 
 ### SDK Keys
 
-- [ ] `keys list` - List SDK keys
-- [ ] `keys rotate` - Rotate SDK keys
+- [x] `keys list` - List SDK keys
+- [x] `keys rotate` - Rotate SDK keys
 
 ---
 
