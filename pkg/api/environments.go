@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// Environments returns all environments for a project.
 func (c *Client) Environments(ctx context.Context, projectKey string) ([]Environment, error) {
 	var environments []Environment
 	path := fmt.Sprintf("/projects/%s/environments", projectKey)
@@ -14,6 +15,7 @@ func (c *Client) Environments(ctx context.Context, projectKey string) ([]Environ
 	return environments, nil
 }
 
+// Environment returns a specific environment by its key.
 func (c *Client) Environment(ctx context.Context, projectKey, environmentKey string) (*Environment, error) {
 	var environment Environment
 	path := fmt.Sprintf("/projects/%s/environments/%s", projectKey, environmentKey)
@@ -23,6 +25,7 @@ func (c *Client) Environment(ctx context.Context, projectKey, environmentKey str
 	return &environment, nil
 }
 
+// CreateEnvironment creates a new environment in a project.
 func (c *Client) CreateEnvironment(ctx context.Context, projectKey string, req *CreateEnvironmentRequest) (*Environment, error) {
 	var environment Environment
 	path := fmt.Sprintf("/projects/%s/environments", projectKey)
@@ -32,6 +35,7 @@ func (c *Client) CreateEnvironment(ctx context.Context, projectKey string, req *
 	return &environment, nil
 }
 
+// UpdateEnvironment updates an existing environment's properties.
 func (c *Client) UpdateEnvironment(ctx context.Context, projectKey, environmentKey string, req *UpdateEnvironmentRequest) (*Environment, error) {
 	var environment Environment
 	path := fmt.Sprintf("/projects/%s/environments/%s", projectKey, environmentKey)
@@ -41,6 +45,8 @@ func (c *Client) UpdateEnvironment(ctx context.Context, projectKey, environmentK
 	return &environment, nil
 }
 
+// DeleteEnvironment removes an environment from a project.
+// Warning: This action cannot be undone.
 func (c *Client) DeleteEnvironment(ctx context.Context, projectKey, environmentKey string) error {
 	path := fmt.Sprintf("/projects/%s/environments/%s", projectKey, environmentKey)
 	if err := c.Delete(ctx, path); err != nil {
@@ -49,6 +55,8 @@ func (c *Client) DeleteEnvironment(ctx context.Context, projectKey, environmentK
 	return nil
 }
 
+// RotateSDKKey rotates an SDK key for an environment.
+// Returns both the previous key and the newly generated key.
 func (c *Client) RotateSDKKey(ctx context.Context, projectKey, environmentKey string, req *RotateKeyRequest) (*RotateKeyResponse, error) {
 	var response RotateKeyResponse
 	path := fmt.Sprintf("/projects/%s/environments/%s/keys", projectKey, environmentKey)

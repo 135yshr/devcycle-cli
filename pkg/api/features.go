@@ -8,6 +8,7 @@ import (
 	"os"
 )
 
+// Features returns all features for a project.
 func (c *Client) Features(ctx context.Context, projectKey string) ([]Feature, error) {
 	var features []Feature
 	path := fmt.Sprintf("/projects/%s/features", projectKey)
@@ -17,6 +18,7 @@ func (c *Client) Features(ctx context.Context, projectKey string) ([]Feature, er
 	return features, nil
 }
 
+// Feature returns a specific feature by its key.
 func (c *Client) Feature(ctx context.Context, projectKey, featureKey string) (*Feature, error) {
 	var feature Feature
 	path := fmt.Sprintf("/projects/%s/features/%s", projectKey, featureKey)
@@ -40,6 +42,9 @@ type UpdateFeatureRequest struct {
 	Description string `json:"description,omitempty"`
 }
 
+// CreateFeature creates a new feature using the v1 API.
+// For full configuration support including variations and targeting,
+// use CreateFeatureV2 instead.
 func (c *Client) CreateFeature(ctx context.Context, projectKey string, req *CreateFeatureRequest) (*Feature, error) {
 	var feature Feature
 	path := fmt.Sprintf("/projects/%s/features", projectKey)
@@ -49,6 +54,7 @@ func (c *Client) CreateFeature(ctx context.Context, projectKey string, req *Crea
 	return &feature, nil
 }
 
+// UpdateFeature updates a feature's basic properties.
 func (c *Client) UpdateFeature(ctx context.Context, projectKey, featureKey string, req *UpdateFeatureRequest) (*Feature, error) {
 	var feature Feature
 	path := fmt.Sprintf("/projects/%s/features/%s", projectKey, featureKey)
@@ -58,6 +64,8 @@ func (c *Client) UpdateFeature(ctx context.Context, projectKey, featureKey strin
 	return &feature, nil
 }
 
+// DeleteFeature removes a feature from a project.
+// Warning: This action cannot be undone.
 func (c *Client) DeleteFeature(ctx context.Context, projectKey, featureKey string) error {
 	path := fmt.Sprintf("/projects/%s/features/%s", projectKey, featureKey)
 	if err := c.Delete(ctx, path); err != nil {
@@ -68,7 +76,8 @@ func (c *Client) DeleteFeature(ctx context.Context, projectKey, featureKey strin
 
 // v2 API methods
 
-// CreateFeatureV2 creates a feature using v2 API with full configuration support
+// CreateFeatureV2 creates a feature using the v2 API with full configuration support
+// including variables, variations, and targeting rules.
 func (c *Client) CreateFeatureV2(ctx context.Context, projectKey string, req *CreateFeatureV2Request) (*FeatureV2, error) {
 	var feature FeatureV2
 	path := fmt.Sprintf("/projects/%s/features", projectKey)
@@ -87,7 +96,8 @@ func (c *Client) CreateFeatureFromFile(ctx context.Context, projectKey, filePath
 	return c.CreateFeatureV2(ctx, projectKey, req)
 }
 
-// UpdateFeatureV2 updates a feature using v2 API with full configuration support
+// UpdateFeatureV2 updates a feature using the v2 API with full configuration support
+// including variables, variations, and targeting rules.
 func (c *Client) UpdateFeatureV2(ctx context.Context, projectKey, featureKey string, req *CreateFeatureV2Request) (*FeatureV2, error) {
 	var feature FeatureV2
 	path := fmt.Sprintf("/projects/%s/features/%s", projectKey, featureKey)
