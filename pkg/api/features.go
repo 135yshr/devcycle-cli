@@ -5,13 +5,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"net/url"
 	"os"
 )
+
+// MaxFileSize is the maximum file size allowed for JSON input files (10MB)
+const MaxFileSize = 10 * 1024 * 1024
 
 // Features returns all features for a project.
 func (c *Client) Features(ctx context.Context, projectKey string) ([]Feature, error) {
 	var features []Feature
-	path := fmt.Sprintf("/projects/%s/features", projectKey)
+	path := fmt.Sprintf("/projects/%s/features", url.PathEscape(projectKey))
 	if err := c.Get(ctx, path, &features); err != nil {
 		return nil, fmt.Errorf("failed to list features: %w", err)
 	}
@@ -21,7 +25,7 @@ func (c *Client) Features(ctx context.Context, projectKey string) ([]Feature, er
 // Feature returns a specific feature by its key.
 func (c *Client) Feature(ctx context.Context, projectKey, featureKey string) (*Feature, error) {
 	var feature Feature
-	path := fmt.Sprintf("/projects/%s/features/%s", projectKey, featureKey)
+	path := fmt.Sprintf("/projects/%s/features/%s", url.PathEscape(projectKey), url.PathEscape(featureKey))
 	if err := c.Get(ctx, path, &feature); err != nil {
 		return nil, fmt.Errorf("failed to get feature: %w", err)
 	}
@@ -47,7 +51,7 @@ type UpdateFeatureRequest struct {
 // use CreateFeatureV2 instead.
 func (c *Client) CreateFeature(ctx context.Context, projectKey string, req *CreateFeatureRequest) (*Feature, error) {
 	var feature Feature
-	path := fmt.Sprintf("/projects/%s/features", projectKey)
+	path := fmt.Sprintf("/projects/%s/features", url.PathEscape(projectKey))
 	if err := c.Post(ctx, path, req, &feature); err != nil {
 		return nil, fmt.Errorf("failed to create feature: %w", err)
 	}
@@ -57,7 +61,7 @@ func (c *Client) CreateFeature(ctx context.Context, projectKey string, req *Crea
 // UpdateFeature updates a feature's basic properties.
 func (c *Client) UpdateFeature(ctx context.Context, projectKey, featureKey string, req *UpdateFeatureRequest) (*Feature, error) {
 	var feature Feature
-	path := fmt.Sprintf("/projects/%s/features/%s", projectKey, featureKey)
+	path := fmt.Sprintf("/projects/%s/features/%s", url.PathEscape(projectKey), url.PathEscape(featureKey))
 	if err := c.Patch(ctx, path, req, &feature); err != nil {
 		return nil, fmt.Errorf("failed to update feature: %w", err)
 	}
@@ -67,7 +71,7 @@ func (c *Client) UpdateFeature(ctx context.Context, projectKey, featureKey strin
 // DeleteFeature removes a feature from a project.
 // Warning: This action cannot be undone.
 func (c *Client) DeleteFeature(ctx context.Context, projectKey, featureKey string) error {
-	path := fmt.Sprintf("/projects/%s/features/%s", projectKey, featureKey)
+	path := fmt.Sprintf("/projects/%s/features/%s", url.PathEscape(projectKey), url.PathEscape(featureKey))
 	if err := c.Delete(ctx, path); err != nil {
 		return fmt.Errorf("failed to delete feature: %w", err)
 	}
@@ -80,7 +84,7 @@ func (c *Client) DeleteFeature(ctx context.Context, projectKey, featureKey strin
 // including variables, variations, and targeting rules.
 func (c *Client) CreateFeatureV2(ctx context.Context, projectKey string, req *CreateFeatureV2Request) (*FeatureV2, error) {
 	var feature FeatureV2
-	path := fmt.Sprintf("/projects/%s/features", projectKey)
+	path := fmt.Sprintf("/projects/%s/features", url.PathEscape(projectKey))
 	if err := c.PostV2(ctx, path, req, &feature); err != nil {
 		return nil, fmt.Errorf("failed to create feature (v2): %w", err)
 	}
@@ -100,7 +104,7 @@ func (c *Client) CreateFeatureFromFile(ctx context.Context, projectKey, filePath
 // including variables, variations, and targeting rules.
 func (c *Client) UpdateFeatureV2(ctx context.Context, projectKey, featureKey string, req *CreateFeatureV2Request) (*FeatureV2, error) {
 	var feature FeatureV2
-	path := fmt.Sprintf("/projects/%s/features/%s", projectKey, featureKey)
+	path := fmt.Sprintf("/projects/%s/features/%s", url.PathEscape(projectKey), url.PathEscape(featureKey))
 	if err := c.PatchV2(ctx, path, req, &feature); err != nil {
 		return nil, fmt.Errorf("failed to update feature (v2): %w", err)
 	}
@@ -109,17 +113,31 @@ func (c *Client) UpdateFeatureV2(ctx context.Context, projectKey, featureKey str
 
 // LoadFeatureRequestFromFile loads a CreateFeatureV2Request from a JSON file
 // If filePath is "-", it reads from stdin
+// Maximum file size is limited to MaxFileSize (10MB) to prevent memory exhaustion
 func LoadFeatureRequestFromFile(filePath string) (*CreateFeatureV2Request, error) {
 	var data []byte
 	var err error
 
 	if filePath == "-" {
-		data, err = io.ReadAll(os.Stdin)
+		data, err = io.ReadAll(io.LimitReader(os.Stdin, MaxFileSize))
 		if err != nil {
 			return nil, fmt.Errorf("failed to read from stdin: %w", err)
 		}
 	} else {
-		data, err = os.ReadFile(filePath)
+		file, err := os.Open(filePath)
+		if err != nil {
+			return nil, fmt.Errorf("failed to open file %s: %w", filePath, err)
+		}
+		defer file.Close()
+
+		info, err := file.Stat()
+		if err != nil {
+			return nil, fmt.Errorf("failed to stat file %s: %w", filePath, err)
+		}
+		if info.Size() > MaxFileSize {
+			return nil, fmt.Errorf("file %s exceeds maximum allowed size (%d bytes)", filePath, MaxFileSize)
+		}
+		data, err = io.ReadAll(file)
 		if err != nil {
 			return nil, fmt.Errorf("failed to read file %s: %w", filePath, err)
 		}

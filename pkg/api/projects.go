@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"fmt"
+	"net/url"
 )
 
 // Projects returns all projects accessible to the authenticated user.
@@ -17,7 +18,7 @@ func (c *Client) Projects(ctx context.Context) ([]Project, error) {
 // Project returns a specific project by its key.
 func (c *Client) Project(ctx context.Context, projectKey string) (*Project, error) {
 	var project Project
-	path := fmt.Sprintf("/projects/%s", projectKey)
+	path := fmt.Sprintf("/projects/%s", url.PathEscape(projectKey))
 	if err := c.Get(ctx, path, &project); err != nil {
 		return nil, fmt.Errorf("failed to get project: %w", err)
 	}
@@ -49,7 +50,7 @@ func (c *Client) CreateProject(ctx context.Context, req *CreateProjectRequest) (
 // UpdateProject updates an existing project's name and/or description.
 func (c *Client) UpdateProject(ctx context.Context, projectKey string, req *UpdateProjectRequest) (*Project, error) {
 	var project Project
-	path := fmt.Sprintf("/projects/%s", projectKey)
+	path := fmt.Sprintf("/projects/%s", url.PathEscape(projectKey))
 	if err := c.Patch(ctx, path, req, &project); err != nil {
 		return nil, fmt.Errorf("failed to update project: %w", err)
 	}

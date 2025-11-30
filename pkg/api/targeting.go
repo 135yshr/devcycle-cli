@@ -3,12 +3,13 @@ package api
 import (
 	"context"
 	"fmt"
+	"net/url"
 )
 
 // FeatureConfigurations returns the targeting configurations for a feature
 func (c *Client) FeatureConfigurations(ctx context.Context, projectKey, featureKey string) (map[string]*EnvironmentConfig, error) {
 	var configs map[string]*EnvironmentConfig
-	path := fmt.Sprintf("/projects/%s/features/%s/configurations", projectKey, featureKey)
+	path := fmt.Sprintf("/projects/%s/features/%s/configurations", url.PathEscape(projectKey), url.PathEscape(featureKey))
 	if err := c.Get(ctx, path, &configs); err != nil {
 		return nil, fmt.Errorf("failed to get feature configurations: %w", err)
 	}
@@ -23,7 +24,7 @@ type UpdateFeatureConfigurationsRequest struct {
 // UpdateFeatureConfigurations updates the targeting configurations for a feature
 func (c *Client) UpdateFeatureConfigurations(ctx context.Context, projectKey, featureKey string, req *UpdateFeatureConfigurationsRequest) (map[string]*EnvironmentConfig, error) {
 	var configs map[string]*EnvironmentConfig
-	path := fmt.Sprintf("/projects/%s/features/%s/configurations", projectKey, featureKey)
+	path := fmt.Sprintf("/projects/%s/features/%s/configurations", url.PathEscape(projectKey), url.PathEscape(featureKey))
 	if err := c.Patch(ctx, path, req, &configs); err != nil {
 		return nil, fmt.Errorf("failed to update feature configurations: %w", err)
 	}
