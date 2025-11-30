@@ -18,6 +18,7 @@ This guide provides detailed usage examples for all `dvcx` commands.
 - [Metrics](#metrics)
 - [Webhooks](#webhooks)
 - [Custom Properties](#custom-properties)
+- [SDK Keys](#sdk-keys)
 
 ## Global Flags
 
@@ -191,6 +192,40 @@ dvcx environments list -p my-project
 ```bash
 # Get environment details
 dvcx environments get development -p my-project
+```
+
+### Create Environment
+
+```bash
+# Create a new environment
+dvcx environments create -p my-project \
+  --key staging \
+  --name "Staging" \
+  --type staging \
+  --color "#ffff00" \
+  --description "Staging environment"
+```
+
+### Update Environment
+
+```bash
+# Update environment name
+dvcx environments update staging -p my-project \
+  --name "Staging Environment" \
+  --description "Updated description"
+
+# Update environment color
+dvcx environments update staging -p my-project --color "#00ffff"
+```
+
+### Delete Environment
+
+```bash
+# Delete environment (with confirmation)
+dvcx environments delete staging -p my-project
+
+# Delete without confirmation
+dvcx environments delete staging -p my-project --force
 ```
 
 ## Targeting
@@ -607,3 +642,29 @@ export DVCX_PROJECT=default-project-key
 ```
 
 Environment variables take precedence over config file values.
+
+## SDK Keys
+
+SDK keys are used to authenticate your application with DevCycle.
+
+### List SDK Keys
+
+```bash
+# List SDK keys for an environment
+dvcx keys list -p my-project -e development
+```
+
+### Rotate SDK Key
+
+```bash
+# Rotate client SDK key (with confirmation)
+dvcx keys rotate -p my-project -e development --type client
+
+# Rotate server SDK key without confirmation
+dvcx keys rotate -p my-project -e development --type server --force
+
+# Rotate mobile SDK key
+dvcx keys rotate -p my-project -e production --type mobile
+```
+
+**Warning**: Rotating a key will invalidate the existing key. Make sure to update your applications with the new key.

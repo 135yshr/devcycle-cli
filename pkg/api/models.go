@@ -284,3 +284,47 @@ type UpdateCustomPropertyRequest struct {
 	DisplayName string `json:"displayName,omitempty"`
 	Description string `json:"description,omitempty"`
 }
+
+// =============================================================================
+// Phase 6: Environment Management
+// =============================================================================
+
+// CreateEnvironmentRequest represents a request to create an environment
+type CreateEnvironmentRequest struct {
+	Name        string `json:"name"`
+	Key         string `json:"key"`
+	Description string `json:"description,omitempty"`
+	Color       string `json:"color,omitempty"`
+	Type        string `json:"type"` // development, staging, production
+}
+
+// UpdateEnvironmentRequest represents a request to update an environment
+type UpdateEnvironmentRequest struct {
+	Name        string `json:"name,omitempty"`
+	Description string `json:"description,omitempty"`
+	Color       string `json:"color,omitempty"`
+}
+
+// SDKKeys represents the SDK keys for an environment
+type SDKKeys struct {
+	Client SDKKeyInfo `json:"client"`
+	Server SDKKeyInfo `json:"server"`
+	Mobile SDKKeyInfo `json:"mobile"`
+}
+
+// SDKKeyInfo represents a single SDK key
+type SDKKeyInfo struct {
+	Key       string    `json:"key"`
+	CreatedAt time.Time `json:"createdAt,omitempty"`
+}
+
+// RotateKeyRequest represents a request to rotate an SDK key
+type RotateKeyRequest struct {
+	Type string `json:"type"` // client, server, mobile
+}
+
+// RotateKeyResponse represents the response from rotating an SDK key
+type RotateKeyResponse struct {
+	PreviousKey string     `json:"previousKey"`
+	NewKey      SDKKeyInfo `json:"newKey"`
+}
