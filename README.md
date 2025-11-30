@@ -62,18 +62,39 @@ go install github.com/135yshr/devcycle-cli@latest
 
 > Note: This project is under active development. See [Roadmap](docs/roadmap.md) for implementation status.
 
+### Core Commands
+
 | Command | Description | Status |
 |---------|-------------|--------|
-| `auth login/logout` | Authentication | Planned |
-| `projects list/get` | Project management | Planned |
-| `features list/get/create/update/delete` | Feature flags | Planned |
-| `variables list/get/create/update/delete` | Variables | Planned |
-| `environments list/get` | Environments | Planned |
+| `auth login/logout` | Authentication | ✅ Completed |
+| `projects list/get/create/update` | Project management | ✅ Completed |
+| `features list/get/create/update/delete` | Feature flags | ✅ Completed |
+| `variables list/get/create/update/delete` | Variables | ✅ Completed |
+| `environments list/get` | Environments | ✅ Completed |
+| `targeting get/update/enable/disable` | Feature targeting | ✅ Completed |
+| `variations list/get/create/update/delete` | Feature variations | ✅ Completed |
 
-See [docs/roadmap.md](docs/roadmap.md) for the complete list.
+### Audiences & Overrides (Phase 4)
+
+| Command | Description | Status |
+|---------|-------------|--------|
+| `audiences list/get/create/update/delete` | Audience management | ✅ Completed |
+| `overrides list/get/set/delete` | Self-targeting overrides | ✅ Completed |
+
+### Operations & Monitoring (Phase 5)
+
+| Command | Description | Status |
+|---------|-------------|--------|
+| `audit list/feature` | Audit logs | ✅ Completed |
+| `metrics list/get/create/update/delete/results` | Metrics management | ✅ Completed |
+| `webhooks list/get/create/update/delete` | Webhook management | ✅ Completed |
+| `custom-properties list/get/create/update/delete` | Custom properties | ✅ Completed |
+
+See [docs/roadmap.md](docs/roadmap.md) for the complete list and [docs/usage.md](docs/usage.md) for detailed usage examples.
 
 ## Documentation
 
+- [Usage Guide](docs/usage.md) - Detailed command usage examples
 - [API Reference](docs/api-reference.md) - DevCycle Management API endpoints
 - [Roadmap](docs/roadmap.md) - Implementation phases and progress
 - [Contributing](docs/contributing.md) - How to contribute

@@ -10,7 +10,7 @@ This document outlines the implementation phases for `dvcx`.
 | Phase 2 | Write Operations | Completed |
 | Phase 3 | Targeting & Variations | Completed |
 | Phase 4 | Audiences & Overrides | Completed |
-| Phase 5 | Operations & Monitoring | Planned |
+| Phase 5 | Operations & Monitoring | Completed |
 | Phase 6 | Environment Management | Planned |
 
 ---
@@ -118,33 +118,33 @@ This document outlines the implementation phases for `dvcx`.
 
 ### Audit Logs
 
-- [ ] `audit list` - List project audit logs
-- [ ] `audit feature` - List feature audit logs
+- [x] `audit list` - List project audit logs
+- [x] `audit feature` - List feature audit logs
 
 ### Metrics
 
-- [ ] `metrics list` - List all metrics
-- [ ] `metrics get` - Get metric details
-- [ ] `metrics create` - Create a new metric
-- [ ] `metrics update` - Update a metric
-- [ ] `metrics delete` - Delete a metric
-- [ ] `metrics results` - Get metric results
+- [x] `metrics list` - List all metrics
+- [x] `metrics get` - Get metric details
+- [x] `metrics create` - Create a new metric
+- [x] `metrics update` - Update a metric
+- [x] `metrics delete` - Delete a metric
+- [x] `metrics results` - Get metric results
 
 ### Webhooks
 
-- [ ] `webhooks list` - List all webhooks
-- [ ] `webhooks get` - Get webhook details
-- [ ] `webhooks create` - Create a new webhook
-- [ ] `webhooks update` - Update a webhook
-- [ ] `webhooks delete` - Delete a webhook
+- [x] `webhooks list` - List all webhooks
+- [x] `webhooks get` - Get webhook details
+- [x] `webhooks create` - Create a new webhook
+- [x] `webhooks update` - Update a webhook
+- [x] `webhooks delete` - Delete a webhook
 
 ### Custom Properties
 
-- [ ] `custom-properties list` - List all custom properties
-- [ ] `custom-properties get` - Get custom property details
-- [ ] `custom-properties create` - Create a new custom property
-- [ ] `custom-properties update` - Update a custom property
-- [ ] `custom-properties delete` - Delete a custom property
+- [x] `custom-properties list` - List all custom properties
+- [x] `custom-properties get` - Get custom property details
+- [x] `custom-properties create` - Create a new custom property
+- [x] `custom-properties update` - Update a custom property
+- [x] `custom-properties delete` - Delete a custom property
 
 ---
 

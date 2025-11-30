@@ -164,3 +164,123 @@ type FeatureV2 struct {
 	CreatedAt        time.Time                     `json:"createdAt"`
 	UpdatedAt        time.Time                     `json:"updatedAt"`
 }
+
+// =============================================================================
+// Phase 5: Operations & Monitoring
+// =============================================================================
+
+// AuditLog represents an audit log entry
+type AuditLog struct {
+	ID        string    `json:"_id"`
+	Type      string    `json:"type"`
+	User      AuditUser `json:"user"`
+	Changes   []Change  `json:"changes"`
+	CreatedAt time.Time `json:"createdAt"`
+}
+
+// AuditUser represents a user in audit logs
+type AuditUser struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
+// Change represents a change in audit logs
+type Change struct {
+	Type             string `json:"type"`
+	NewContents      any    `json:"newContents"`
+	PreviousContents any    `json:"previousContents"`
+}
+
+// Metric represents a metric definition
+type Metric struct {
+	ID          string    `json:"_id"`
+	Key         string    `json:"key"`
+	Name        string    `json:"name"`
+	Type        string    `json:"type"`
+	EventType   string    `json:"eventType"`
+	OptimizeFor string    `json:"optimizeFor"`
+	Description string    `json:"description,omitempty"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+}
+
+// CreateMetricRequest represents a request to create a metric
+type CreateMetricRequest struct {
+	Name        string `json:"name"`
+	Key         string `json:"key"`
+	Type        string `json:"type"`
+	EventType   string `json:"eventType"`
+	OptimizeFor string `json:"optimizeFor"`
+	Description string `json:"description,omitempty"`
+}
+
+// UpdateMetricRequest represents a request to update a metric
+type UpdateMetricRequest struct {
+	Name        string `json:"name,omitempty"`
+	Type        string `json:"type,omitempty"`
+	EventType   string `json:"eventType,omitempty"`
+	OptimizeFor string `json:"optimizeFor,omitempty"`
+	Description string `json:"description,omitempty"`
+}
+
+// MetricResults represents metric results data
+type MetricResults struct {
+	Data []MetricResultData `json:"data"`
+}
+
+// MetricResultData represents a single metric result entry
+type MetricResultData struct {
+	VariationKey string  `json:"variationKey"`
+	Count        int     `json:"count"`
+	Value        float64 `json:"value"`
+}
+
+// Webhook represents a webhook configuration
+type Webhook struct {
+	ID          string    `json:"_id"`
+	URL         string    `json:"url"`
+	Description string    `json:"description,omitempty"`
+	IsEnabled   bool      `json:"isEnabled"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+}
+
+// CreateWebhookRequest represents a request to create a webhook
+type CreateWebhookRequest struct {
+	URL         string `json:"url"`
+	Description string `json:"description,omitempty"`
+	IsEnabled   bool   `json:"isEnabled"`
+}
+
+// UpdateWebhookRequest represents a request to update a webhook
+type UpdateWebhookRequest struct {
+	URL         string `json:"url,omitempty"`
+	Description string `json:"description,omitempty"`
+	IsEnabled   *bool  `json:"isEnabled,omitempty"`
+}
+
+// CustomProperty represents a custom property definition
+type CustomProperty struct {
+	ID          string    `json:"_id"`
+	Key         string    `json:"key"`
+	PropertyKey string    `json:"propertyKey"`
+	DisplayName string    `json:"displayName"`
+	Type        string    `json:"type"`
+	Description string    `json:"description,omitempty"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+}
+
+// CreateCustomPropertyRequest represents a request to create a custom property
+type CreateCustomPropertyRequest struct {
+	Key         string `json:"key"`
+	DisplayName string `json:"displayName"`
+	Type        string `json:"type"`
+	Description string `json:"description,omitempty"`
+}
+
+// UpdateCustomPropertyRequest represents a request to update a custom property
+type UpdateCustomPropertyRequest struct {
+	DisplayName string `json:"displayName,omitempty"`
+	Description string `json:"description,omitempty"`
+}
