@@ -8,7 +8,7 @@ This document outlines the implementation phases for `dvcx`.
 |-------|-------|--------|
 | Phase 1 | Foundation + Basic Operations (MVP) | Completed |
 | Phase 2 | Write Operations | Completed |
-| Phase 3 | Targeting & Variations | Planned |
+| Phase 3 | Targeting & Variations | Completed |
 | Phase 4 | Audiences & Overrides | Planned |
 | Phase 5 | Operations & Monitoring | Planned |
 | Phase 6 | Environment Management | Planned |
@@ -74,15 +74,18 @@ This document outlines the implementation phases for `dvcx`.
 
 ### Targeting
 
-- [ ] `targeting get` - Get targeting configuration
-- [ ] `targeting update` - Update targeting rules
+- [x] `targeting get` - Get targeting configuration
+- [x] `targeting update` - Update targeting rules
+- [x] `targeting enable` - Enable a feature for an environment
+- [x] `targeting disable` - Disable a feature for an environment
 
 ### Variations
 
-- [ ] `variations list` - List all variations
-- [ ] `variations create` - Create a new variation
-- [ ] `variations update` - Update a variation
-- [ ] `variations delete` - Delete a variation
+- [x] `variations list` - List all variations
+- [x] `variations get` - Get variation details
+- [x] `variations create` - Create a new variation
+- [x] `variations update` - Update a variation
+- [x] `variations delete` - Delete a variation
 
 ---
 

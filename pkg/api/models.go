@@ -44,6 +44,23 @@ type Variable struct {
 	UpdatedAt   time.Time `json:"updatedAt"`
 }
 
+// Variation represents a feature variation
+type Variation struct {
+	ID        string         `json:"_id"`
+	Key       string         `json:"key"`
+	Name      string         `json:"name"`
+	Variables map[string]any `json:"variables,omitempty"`
+}
+
+// FeatureConfiguration represents a feature's targeting configuration
+type FeatureConfiguration struct {
+	ID      string                        `json:"_id,omitempty"`
+	Feature string                        `json:"_feature,omitempty"`
+	Status  string                        `json:"status,omitempty"`
+	Targets []Target                      `json:"targets,omitempty"`
+	Configs map[string]*EnvironmentConfig `json:"configurations,omitempty"`
+}
+
 // v2 API types
 
 // CreateFeatureV2Request represents a request to create a feature using v2 API
