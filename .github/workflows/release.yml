@@ -1,14 +1,14 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [published]
 
 permissions:
   contents: write
   pages: write
   id-token: write
+  pull-requests: write
 
 # Allow only one concurrent deployment
 concurrency:
@@ -27,9 +27,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get version from tag
+      - name: Get version from release tag
         id: version
-        run: echo "version=${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+        run: echo "version=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
 
       - name: Setup Go
         uses: actions/setup-go@v5
@@ -42,6 +42,12 @@ jobs:
       - name: Generate changelog for this release
         run: |
           git cliff --current --strip header -o RELEASE_NOTES.md
+
+      - name: Update release body with changelog
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release edit ${{ github.event.release.tag_name }} --notes-file RELEASE_NOTES.md
 
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
@@ -70,17 +76,25 @@ jobs:
       - name: Generate full changelog
         run: git cliff -o CHANGELOG.md
 
-      - name: Commit and push changelog
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add CHANGELOG.md
-          if git diff --staged --quiet; then
-            echo "No changes to CHANGELOG.md"
-          else
-            git commit -m "📝 docs: Update CHANGELOG.md for ${{ needs.release.outputs.version }}"
-            git push
-          fi
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "📝 docs: Update CHANGELOG.md for ${{ needs.release.outputs.version }}"
+          title: "📝 docs: Update CHANGELOG.md for ${{ needs.release.outputs.version }}"
+          body: |
+            Automated CHANGELOG update for release ${{ needs.release.outputs.version }}.
+
+            This PR was automatically created by the release workflow.
+          branch: changelog/update-${{ needs.release.outputs.version }}
+          delete-branch: true
+
+      - name: Enable auto-merge
+        if: steps.cpr.outputs.pull-request-number
+        run: gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --auto --squash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # Build and deploy documentation after successful release
   docs-build:
