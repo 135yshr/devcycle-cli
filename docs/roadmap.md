@@ -103,15 +103,18 @@ This document outlines the implementation phases for `dvcx`.
 
 ### Overrides (Self-Targeting)
 
-- [ ] `overrides list` - List all overrides
-- [ ] `overrides create` - Create a new override
-- [ ] `overrides delete` - Delete an override
+- [ ] `overrides list` - List all overrides for a feature (requires --feature)
+- [ ] `overrides get` - Get current user's override for a feature
+- [ ] `overrides set` - Create/update override for current user
+- [ ] `overrides delete` - Delete override for current user
+- [ ] `overrides list-mine` - List all my overrides in project
+- [ ] `overrides delete-mine` - Delete all my overrides in project
 
 ---
 
 ## Phase 5: Operations & Monitoring
 
-**Goal:** Implement operational features like audit logs, metrics, and webhooks.
+**Goal:** Implement operational features like audit logs, metrics, webhooks, and custom properties.
 
 ### Audit Logs
 
@@ -120,15 +123,28 @@ This document outlines the implementation phases for `dvcx`.
 
 ### Metrics
 
-- [ ] `metrics project` - Get project metrics
-- [ ] `metrics feature` - Get feature metrics
+- [ ] `metrics list` - List all metrics
+- [ ] `metrics get` - Get metric details
+- [ ] `metrics create` - Create a new metric
+- [ ] `metrics update` - Update a metric
+- [ ] `metrics delete` - Delete a metric
+- [ ] `metrics results` - Get metric results
 
 ### Webhooks
 
 - [ ] `webhooks list` - List all webhooks
+- [ ] `webhooks get` - Get webhook details
 - [ ] `webhooks create` - Create a new webhook
 - [ ] `webhooks update` - Update a webhook
 - [ ] `webhooks delete` - Delete a webhook
+
+### Custom Properties
+
+- [ ] `custom-properties list` - List all custom properties
+- [ ] `custom-properties get` - Get custom property details
+- [ ] `custom-properties create` - Create a new custom property
+- [ ] `custom-properties update` - Update a custom property
+- [ ] `custom-properties delete` - Delete a custom property
 
 ---
 
