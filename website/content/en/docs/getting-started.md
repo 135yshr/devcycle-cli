@@ -23,9 +23,23 @@ Before installing dvcx, you need:
 
 ## Installation
 
+### Homebrew (Recommended for macOS/Linux)
+
+The easiest way to install dvcx is via Homebrew:
+
+```bash
+brew install 135yshr/tap/dvcx
+```
+
+To upgrade to the latest version:
+
+```bash
+brew upgrade dvcx
+```
+
 ### Using Go Install
 
-If you have Go installed, the easiest way to install dvcx is:
+If you have Go installed:
 
 ```bash
 go install github.com/135yshr/devcycle-cli@latest
