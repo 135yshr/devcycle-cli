@@ -37,28 +37,22 @@ Download the latest binary for your platform from the [Releases page](https://gi
 
 {{< tabs "installation" >}}
 {{< tab "macOS (Apple Silicon)" >}}
-
-```bash
+{{< highlight bash >}}
 curl -L https://github.com/135yshr/devcycle-cli/releases/latest/download/dvcx_darwin_arm64.tar.gz | tar xz
 sudo mv dvcx /usr/local/bin/
-```
-
+{{< /highlight >}}
 {{< /tab >}}
 {{< tab "macOS (Intel)" >}}
-
-```bash
+{{< highlight bash >}}
 curl -L https://github.com/135yshr/devcycle-cli/releases/latest/download/dvcx_darwin_amd64.tar.gz | tar xz
 sudo mv dvcx /usr/local/bin/
-```
-
+{{< /highlight >}}
 {{< /tab >}}
 {{< tab "Linux" >}}
-
-```bash
+{{< highlight bash >}}
 curl -L https://github.com/135yshr/devcycle-cli/releases/latest/download/dvcx_linux_amd64.tar.gz | tar xz
 sudo mv dvcx /usr/local/bin/
-```
-
+{{< /highlight >}}
 {{< /tab >}}
 {{< tab "Windows" >}}
 Download the `.zip` file from the releases page and add the extracted folder to your PATH.
