@@ -156,9 +156,48 @@ make version
 
 ## Release Checklist
 
-1. Update `CHANGELOG.md` with release notes
-2. Commit changes: `git commit -m "📝 docs: Update changelog for vX.Y.Z"`
-3. Create tag: `git tag vX.Y.Z`
-4. Push tag: `git push origin vX.Y.Z`
-5. Verify GitHub Actions release workflow
-6. Verify Homebrew formula update
+1. Preview changelog: `make changelog-preview`
+2. Create and push tag:
+
+   ```bash
+   git tag vX.Y.Z
+   git push origin vX.Y.Z
+   ```
+
+3. GitHub Actions will automatically:
+   - Generate release notes using git-cliff
+   - Create GitHub Release with the notes
+   - Update `CHANGELOG.md` in main branch
+   - Build and publish binaries
+   - Update Homebrew formula
+
+## Changelog Generation
+
+This project uses [git-cliff](https://git-cliff.org/) to automatically generate changelogs from gitmoji commit messages.
+
+### Local Commands
+
+```bash
+# Generate full CHANGELOG.md
+make changelog
+
+# Preview unreleased changes
+make changelog-preview
+```
+
+### Supported Gitmoji Categories
+
+| Emoji | Category |
+|-------|----------|
+| ✨ | Added |
+| 🐛 🩹 | Fixed |
+| 📝 | Documentation |
+| ⚡ | Performance |
+| ♻️ 🎨 | Changed |
+| ✅ 🧪 | Testing |
+| 👷 🔧 📦 | Build |
+| 🔒 🔐 | Security |
+| ⬆️ ⬇️ 📌 | Dependencies |
+| 🗑️ | Deprecated |
+| 🔥 ➖ | Removed |
+| 💥 | Breaking Changes |

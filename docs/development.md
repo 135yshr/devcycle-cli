@@ -7,6 +7,7 @@ This guide covers setting up your development environment and understanding the 
 - Go 1.24 or later
 - Make
 - Git
+- [git-cliff](https://git-cliff.org/) (optional, for changelog generation)
 
 ## Setup
 
@@ -48,6 +49,8 @@ This guide covers setting up your development environment and understanding the 
 | `make tidy` | Tidy go modules |
 | `make clean` | Remove build artifacts |
 | `make run ARGS="..."` | Run CLI with arguments |
+| `make changelog` | Generate CHANGELOG.md |
+| `make changelog-preview` | Preview unreleased changes |
 
 ## Project Structure
 
